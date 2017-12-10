@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2015
+# Visual Studio 2017
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "New Unity Project 1", "New Unity Project 1.csproj", "{8002E4DD-80B1-F3C7-1315-02E0DBFF17F5}"
 EndProject
 Global
