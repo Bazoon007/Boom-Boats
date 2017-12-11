@@ -6,6 +6,13 @@ public class BorderCollision : MonoBehaviour {
 
     private void OnTriggerExit(Collider other)
     {
-        Destroy(other.gameObject);
+        if (other.tag == "Cannonball")
+        {
+            Destroy(other.gameObject);
+        }
+        else if (other.tag == "Diag" || other.tag == "RDiag")
+        {
+            other.gameObject.SetActive(false);
+        }
     }
 }

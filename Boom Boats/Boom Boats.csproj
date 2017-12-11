@@ -105,6 +105,7 @@
     <Compile Include="Assets\Scripts\Cannon Scripts\MoveLeftRight.cs" />
     <Compile Include="Assets\Scripts\CannonBall Scripts\CannonBall.cs" />
     <Compile Include="Assets\Scripts\CannonBall Scripts\Mover.cs" />
+    <Compile Include="Assets\Scripts\Collisions\BoatCannonBallCollider.cs" />
     <Compile Include="Assets\Scripts\Collisions\BorderCollision.cs" />
     <Compile Include="Assets\Scripts\Collisions\Destroyer.cs" />
     <Compile Include="Assets\Scripts\Manager Scripts\ScoreManager.cs" />

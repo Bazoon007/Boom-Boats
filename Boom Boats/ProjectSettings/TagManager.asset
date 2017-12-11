@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Diag
   - RDiag
+  - Cannon
+  - Cannonball
   layers:
   - Default
   - TransparentFX

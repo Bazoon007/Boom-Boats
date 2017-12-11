@@ -14,7 +14,9 @@ public class SpawnManager : MonoBehaviour {
     public int[] spawnPointsCountArray;
     private byte minCount;
     private int min;
-    
+
+    public float startingZposition;
+
     public static SpawnManager getInstance()
     {
         return FindObjectOfType<SpawnManager>();
@@ -28,16 +30,15 @@ public class SpawnManager : MonoBehaviour {
             boats[i] = obj;
         }
         spawnPoints = new Vector3[4];
-        spawnPoints[0] = new Vector3(1, 0.5f, -1);
-        spawnPoints[1] = new Vector3(-1, 0.5f, -1);
-        spawnPoints[2] = new Vector3(-1, 0.5f, 1);
-        spawnPoints[3] = new Vector3(1, 0.5f, 1);
+        spawnPoints[0] = new Vector3(0f, 0f, startingZposition);
+        spawnPoints[1] = new Vector3(0f, 0f, startingZposition);
+        spawnPoints[2] = new Vector3(0f, 0f, startingZposition);
+        spawnPoints[3] = new Vector3(0f, 0f, startingZposition);
         spawnPointsCountArray = new int[spawnPoints.Length];
         for(int i = 0; i < spawnPointsCountArray.Length; i++)
         {
             spawnPointsCountArray[i] = 0;
         }
-        //  InvokeRepeating("Spawn", spawnTime, spawnTime);
         lastSpawn = 0;
 	}
 
@@ -70,6 +71,7 @@ public class SpawnManager : MonoBehaviour {
                 boats[i].transform.position = spawnPoints[j];
                 boats[i].transform.rotation = Quaternion.identity;
                 boats[i].GetComponent<BoatMover>().speed = spawnBoatSpeed;
+                boats[i].GetComponent<BoatMover>().spawnManager = this;
                 boats[i].SetActive(true);
                 break;
             }
@@ -104,6 +106,11 @@ public class SpawnManager : MonoBehaviour {
             }
         }
         return lastMinIndex;
+    }
+
+    public void removeBoatFromList(int target)
+    {
+        spawnPointsCountArray[target]--;
     }
 
 }

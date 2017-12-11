@@ -6,6 +6,7 @@ public class BoatMover : MonoBehaviour {
 
     public float speed;
     public int target;
+    public SpawnManager spawnManager;
     private int m;
     private Rigidbody rb;
 	// Use this for initialization
@@ -25,24 +26,17 @@ public class BoatMover : MonoBehaviour {
 
     }
 
-    private void OnTriggerEnter(Collider other)
+    public void ChangeDirection()
     {
-        if (other.gameObject.name.StartsWith("Cannon"))
-        {
-            //Debug.Log("BOOM!");
-            gameObject.SetActive(false);
-        }
-        else
-        {
-            //Debug.Log("Change Direction");
-            m = (m + 1) % 2;
-        }
-
+        m = (m + 1) % 2;
     }
+
+    
 
     void OnDisable()
     {
-        SpawnManager.getInstance().spawnPointsCountArray[target]--;
+        spawnManager.removeBoatFromList(target);
+        //SpawnManager.getInstance().removeBoatFromList(target);
         CancelInvoke();
     }
 }

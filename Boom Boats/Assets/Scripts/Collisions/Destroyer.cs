@@ -12,6 +12,6 @@ public class Destroyer : MonoBehaviour {
         int cannonIndex = other.GetComponent<CannonBall>().cannonBallIndex;
         ScoreManager.GetComponent<ScoreManager>().UpdateScore(cannonIndex);
 
-        Destroy(other.gameObject);
+        //Destroy(other.gameObject);
     }
 }
