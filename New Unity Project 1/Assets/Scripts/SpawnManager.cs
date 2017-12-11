@@ -6,47 +6,18 @@ public class SpawnManager : MonoBehaviour {
 
     public float spawnTime;
     public int maxBoats;
-    public GameObject[] boats;
     public GameObject boat;
+    public float spawnBoatSpeed;
+    public GameObject[] boats;    
     public Vector3[] spawnPoints;
     public int[] spawnPointsCountArray;
-    public ProbTuple[] probRange;
-    public class ProbTuple
-    {
-        int min;
-        int max;
-        public ProbTuple(int min, int max)
-        {
-            this.min = min;
-            this.max = max;
-        }
-
-        public int Min
-        {
-            get
-            {
-                return min;
-            }
-            set
-            {
-                min = value;
-            }
-        }
-        public int Max
-        {
-            get
-            {
-                return max;
-            }
-            set
-            {
-                max = value;
-            }
-        }
-
-    }
+    private byte minCount;
+    private int min;
     
-
+    public static SpawnManager getInstance()
+    {
+        return FindObjectOfType<SpawnManager>();
+    }
     void Start () {
         boats = new GameObject[maxBoats];
         for(int i = 0; i < maxBoats; i++)
@@ -63,13 +34,8 @@ public class SpawnManager : MonoBehaviour {
         spawnPointsCountArray = new int[spawnPoints.Length];
         for(int i = 0; i < spawnPointsCountArray.Length; i++)
         {
-            spawnPointsCountArray[i] = maxBoats / spawnPointsCountArray.Length;
+            spawnPointsCountArray[i] = 0;
         }
-        probRange = new ProbTuple[spawnPointsCountArray.Length];
-        probRange[0] = new ProbTuple(0, 25);
-        probRange[1] = new ProbTuple(25, 50);
-        probRange[2] = new ProbTuple(50, 75);
-        probRange[3] = new ProbTuple(75, 100);
         InvokeRepeating("Spawn", spawnTime, spawnTime);
 	}
     
@@ -79,12 +45,8 @@ public class SpawnManager : MonoBehaviour {
         {
             if(!boats[i].activeInHierarchy)
             {
-                int j = getSpawnPoint(Random.Range(0,100));
-                if(j == 4)
-                {
-                    j = 3;
-                }
-                spawnPointsCountArray[j]--;
+                int j = getSpawnIndex();
+                spawnPointsCountArray[j]++;
                 if (j % 2 == 0)
                 {
                     boats[i].tag = "Diag";
@@ -93,27 +55,44 @@ public class SpawnManager : MonoBehaviour {
                 {
                     boats[i].tag = "RDiag";
                 }
-                boats[i].GetComponent<BoatMover>().target = GameObject.Find("Cannon" + (j + 1)).transform;
+                boats[i].GetComponent<BoatMover>().target = j + 1;
                 boats[i].transform.position = spawnPoints[j];
                 boats[i].transform.rotation = Quaternion.identity;
+                boats[i].GetComponent<BoatMover>().speed = spawnBoatSpeed;
                 boats[i].SetActive(true);
                 break;
             }
         }
     }
 
-    private void updateProb()
+    private int getSpawnIndex()
     {
-
-    }
-
-    private int getSpawnPoint(int n)
-    {
-        for(int i = 0; i < probRange.Length; i++)
+        min = spawnPointsCountArray[0];
+        minCount = 1;
+        for (int i = 1; i < spawnPointsCountArray.Length; i++)
         {
-            if (n >= probRange[i].Min && n <= probRange[i].Max)
-                return i;
+            if(spawnPointsCountArray[i] < min)
+            {
+                minCount = 1;
+                min = spawnPointsCountArray[i];
+            }
+            else if(spawnPointsCountArray[i] == min)
+            {
+                minCount++;
+            }
         }
-        return -1;
+        int k = Random.Range(1, minCount + 1);
+        int indexCount = 0;
+        int lastMinIndex = 0;
+        for (int i = 0; indexCount < k && i < spawnPointsCountArray.Length; i++)
+        {
+            if (spawnPointsCountArray[i] <= min)
+            {
+                indexCount++;
+                lastMinIndex = i;
+            }
+        }
+        return lastMinIndex;
     }
+
 }

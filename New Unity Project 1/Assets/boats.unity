@@ -869,10 +869,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a026be0f8f8eb704f92b79590241cd01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnTime: 1
-  maxBoats: 8
-  boats: []
+  spawnTime: 0.55
+  maxBoats: 16
   boat: {fileID: 1300190056103224, guid: c4b06c1d2ae237f4695d71f1a3c8360c, type: 2}
+  spawnBoatSpeed: 1
+  boats: []
   spawnPoints: []
   spawnPointsCountArray: 
 --- !u!1001 &2026195341

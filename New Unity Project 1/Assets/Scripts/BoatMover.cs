@@ -5,19 +5,15 @@ using UnityEngine;
 public class BoatMover : MonoBehaviour {
 
     public float speed;
-    public Transform target;
+    public int target;
     private int m;
     private Rigidbody rb;
 	// Use this for initialization
     void OnEnable()
     {
-        transform.LookAt(target);
+        transform.LookAt(GameObject.Find("Cannon" + target).transform);
         m = 0;
-
     }
-
-    
-    
 
     // Update is called once per frame
     void Update () {
@@ -46,6 +42,7 @@ public class BoatMover : MonoBehaviour {
 
     void OnDisable()
     {
+        SpawnManager.getInstance().spawnPointsCountArray[target - 1]--;
         CancelInvoke();
     }
 }
