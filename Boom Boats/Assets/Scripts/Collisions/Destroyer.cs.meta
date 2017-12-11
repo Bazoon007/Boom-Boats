@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 61fc62d5da788d544b7b306e5ff47a72
+timeCreated: 1512977952
+licenseType: Free
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences:
+  - ScoreManager: {fileID: 1323412491998326, guid: 21c44ce7de5e2f64fb786ea03128e78b,
+      type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

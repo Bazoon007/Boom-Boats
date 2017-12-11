@@ -38,6 +38,8 @@ public class SpawnManager : MonoBehaviour {
         }
         InvokeRepeating("Spawn", spawnTime, spawnTime);
 	}
+
+    
     
     void Spawn()
     {
