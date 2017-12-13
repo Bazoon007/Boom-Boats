@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -14,6 +15,9 @@ public class SpawnManager : MonoBehaviour {
     public int[] spawnPointsCountArray;
     private byte minCount;
     private int min;
+    public int numberOfDestroyedBoats;
+    public WaveManager waveManager;
+    
 
     public float startingZposition;
 
@@ -21,26 +25,39 @@ public class SpawnManager : MonoBehaviour {
     {
         return FindObjectOfType<SpawnManager>();
     }
-    void Start () {
-        boats = new GameObject[maxBoats];
-        for(int i = 0; i < maxBoats; i++)
-        {
-            GameObject obj = (GameObject)Instantiate(boat);
-            obj.SetActive(false);
-            boats[i] = obj;
-        }
+    void Start ()
+    {
+        InitiateBoats(maxBoats, waveManager.currentWave);
+        InitiateSpawnPoints();
+        numberOfDestroyedBoats = 0;
+    }
+    private void InitiateSpawnPoints()
+    {
         spawnPoints = new Vector3[4];
         spawnPoints[0] = new Vector3(0f, 0f, startingZposition);
         spawnPoints[1] = new Vector3(0f, 0f, startingZposition);
         spawnPoints[2] = new Vector3(0f, 0f, startingZposition);
         spawnPoints[3] = new Vector3(0f, 0f, startingZposition);
+
         spawnPointsCountArray = new int[spawnPoints.Length];
-        for(int i = 0; i < spawnPointsCountArray.Length; i++)
+        for (int i = 0; i < spawnPointsCountArray.Length; i++)
         {
             spawnPointsCountArray[i] = 0;
         }
+
         lastSpawn = 0;
-	}
+    }
+
+    private void InitiateBoats(int numberOfBoats, int wave)
+    {
+        boats = new GameObject[numberOfBoats];
+        for (int i = 0; i < numberOfBoats; i++)
+        {
+            GameObject newBoat = (GameObject)Instantiate(boat);
+            newBoat.SetActive(false);
+            boats[i] = newBoat;
+        }
+    }
 
     private void Update()
     {
@@ -72,9 +89,22 @@ public class SpawnManager : MonoBehaviour {
                 boats[i].transform.rotation = Quaternion.identity;
                 boats[i].GetComponent<BoatMover>().speed = spawnBoatSpeed;
                 boats[i].GetComponent<BoatMover>().spawnManager = this;
+                setBoatHealth(boats[i]);
                 boats[i].SetActive(true);
                 break;
             }
+        }
+    }
+
+    private void setBoatHealth(GameObject boat)
+    {
+        if (waveManager.currentWave < 1)
+        {
+            boat.GetComponent<BoatHealth>().setBoatHealth(1);
+        }
+        else
+        {
+            boat.GetComponent<BoatHealth>().setBoatHealth(2);
         }
     }
 
@@ -94,7 +124,7 @@ public class SpawnManager : MonoBehaviour {
                 minCount++;
             }
         }
-        int k = Random.Range(1, minCount + 1);
+        int k = UnityEngine.Random.Range(1, minCount + 1);
         int indexCount = 0;
         int lastMinIndex = 0;
         for (int i = 0; indexCount < k && i < spawnPointsCountArray.Length; i++)
@@ -113,4 +143,11 @@ public class SpawnManager : MonoBehaviour {
         spawnPointsCountArray[target]--;
     }
 
+    public void IncreaseNumberOfDestroyedBoats()
+    {
+        numberOfDestroyedBoats++;
+        waveManager.CheckIfNeedToIncreaseWave(numberOfDestroyedBoats);
+    }
+
+    
 }

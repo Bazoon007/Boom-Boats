@@ -100,6 +100,7 @@
     <Compile Include="Assets\GUI Animator\GUI Animator FREE\Demo (CSharp)\Scripts\GA_FREE_DemoPlaySound.cs" />
     <Compile Include="Assets\GUI Animator\GUI Animator FREE\Demo (CSharp)\Scripts\GA_FREE_OpenOtherScene.cs" />
     <Compile Include="Assets\GUI Animator\GUI Animator FREE\Demo Basic (CSharp)\Scripts\GUIAnimatorFREEDemo.cs" />
+    <Compile Include="Assets\Scripts\Boat Scripts\BoatHealth.cs" />
     <Compile Include="Assets\Scripts\Boat Scripts\BoatMover.cs" />
     <Compile Include="Assets\Scripts\Cannon Scripts\CannonShoot.cs" />
     <Compile Include="Assets\Scripts\Cannon Scripts\MoveLeftRight.cs" />
@@ -111,6 +112,7 @@
     <Compile Include="Assets\Scripts\Manager Scripts\ScoreManager.cs" />
     <Compile Include="Assets\Scripts\Manager Scripts\SpawnManager.cs" />
     <Compile Include="Assets\Scripts\Manager Scripts\TouchInput.cs" />
+    <Compile Include="Assets\Scripts\Manager Scripts\WaveManager.cs" />
     <Compile Include="Assets\Scripts\Screen Objects Scripts\SeaMover.cs" />
     <Compile Include="Assets\Water Flow FREE\Scripts\WaterFlowFREEDemo.cs" />
   </ItemGroup>
