@@ -8,6 +8,7 @@ TagManager:
   - RDiag
   - Cannon
   - Cannonball
+  - BoatAfterHit
   layers:
   - Default
   - TransparentFX

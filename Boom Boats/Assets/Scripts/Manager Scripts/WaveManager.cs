@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class WaveManager : MonoBehaviour {
 
+    public int waveLeangth;
     public UnityEngine.UI.Text waveText;
     public int currentWave;
+    public SpawnManager spawnManager;
 
     private void Start()
     {
@@ -20,12 +22,14 @@ public class WaveManager : MonoBehaviour {
 
     public void CheckIfNeedToIncreaseWave(int numberOfDestroyedBoats)
     {
-        if (numberOfDestroyedBoats % 3 == 0)
+        if (numberOfDestroyedBoats % waveLeangth == 0)
         {
             Debug.Log("Number of destroyed boats: " + numberOfDestroyedBoats);
             currentWave++;
             Debug.Log("Starting wave: " + currentWave);
             updateWaveText();
+            Debug.Log("Disabling existing wave");
+            spawnManager.DisableAllActiveBoats();
         }
     }
 }

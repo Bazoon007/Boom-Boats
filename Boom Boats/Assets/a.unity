@@ -108,6 +108,23 @@ NavMeshSettings:
     tileSize: 256
     accuratePlacement: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &32261350 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1595399000976840, guid: 1ef769c63a5e39341accb74b88de9428,
+    type: 2}
+  m_PrefabInternal: {fileID: 402278455}
+--- !u!114 &32261356
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 32261350}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3dc5972048a2ee9498e96b9cd70bdb1e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  initialHealth: 1
 --- !u!1 &71502075
 GameObject:
   m_ObjectHideFlags: 0
@@ -286,8 +303,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b43f14a5bd656da428bf82c8d2ff823f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  waveLeangth: 4
   waveText: {fileID: 583851776}
   currentWave: 0
+  spawnManager: {fileID: 187774931}
 --- !u!1 &179919486
 GameObject:
   m_ObjectHideFlags: 0
@@ -907,8 +926,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 40.8, y: 90.6}
-  m_SizeDelta: {x: 160, y: 30}
+  m_AnchoredPosition: {x: -29, y: 210}
+  m_SizeDelta: {x: 300, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &583851776
 MonoBehaviour:
@@ -931,18 +950,18 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 14
+    m_FontSize: 30
     m_FontStyle: 0
     m_BestFit: 0
-    m_MinSize: 10
-    m_MaxSize: 40
-    m_Alignment: 0
+    m_MinSize: 0
+    m_MaxSize: 300
+    m_Alignment: 1
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
-    m_VerticalOverflow: 0
+    m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: New Text
+  m_Text: 'Current Wave: 0'
 --- !u!222 &583851777
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1108,6 +1127,7 @@ GameObject:
   - component: {fileID: 769532369}
   - component: {fileID: 769532372}
   - component: {fileID: 769532374}
+  - component: {fileID: 769532370}
   m_Layer: 8
   m_Name: Cannon2
   m_TagString: Cannon
@@ -1131,6 +1151,18 @@ MonoBehaviour:
   rotationLimit: 0.2
   shootingPointTranform: {fileID: 71502076}
   location: 2
+--- !u!114 &769532370
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 769532368}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3dc5972048a2ee9498e96b9cd70bdb1e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  initialHealth: 1
 --- !u!23 &769532371
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1568,6 +1600,7 @@ GameObject:
   - component: {fileID: 1353141613}
   - component: {fileID: 1353141616}
   - component: {fileID: 1353141618}
+  - component: {fileID: 1353141614}
   m_Layer: 8
   m_Name: Cannon1
   m_TagString: Cannon
@@ -1591,6 +1624,18 @@ MonoBehaviour:
   rotationLimit: 0.2
   shootingPointTranform: {fileID: 751256396}
   location: 1
+--- !u!114 &1353141614
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1353141612}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3dc5972048a2ee9498e96b9cd70bdb1e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  initialHealth: 1
 --- !u!23 &1353141615
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1826,7 +1871,7 @@ MonoBehaviour:
   m_Script: {fileID: 1980459831, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 800, y: 600}
@@ -2111,6 +2156,7 @@ GameObject:
   - component: {fileID: 1990285225}
   - component: {fileID: 1990285228}
   - component: {fileID: 1990285230}
+  - component: {fileID: 1990285226}
   m_Layer: 8
   m_Name: Cannon3
   m_TagString: Cannon
@@ -2134,6 +2180,18 @@ MonoBehaviour:
   rotationLimit: 0.2
   shootingPointTranform: {fileID: 354584416}
   location: 3
+--- !u!114 &1990285226
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1990285224}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3dc5972048a2ee9498e96b9cd70bdb1e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  initialHealth: 1
 --- !u!23 &1990285227
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -2470,7 +2528,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 962ce6a15017fe34ba83a7954453dea1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 1
+  speed: 0.5
   startingXPosition: 17
   endingXPosition: -16
 --- !u!54 &2139712823

@@ -89,14 +89,15 @@ public class SpawnManager : MonoBehaviour {
                 boats[i].transform.rotation = Quaternion.identity;
                 boats[i].GetComponent<BoatMover>().speed = spawnBoatSpeed;
                 boats[i].GetComponent<BoatMover>().spawnManager = this;
-                setBoatHealth(boats[i]);
+                initiateBoatHealth(boats[i]);
                 boats[i].SetActive(true);
+                
                 break;
             }
         }
     }
 
-    private void setBoatHealth(GameObject boat)
+    private void initiateBoatHealth(GameObject boat)
     {
         if (waveManager.currentWave < 1)
         {
@@ -106,6 +107,7 @@ public class SpawnManager : MonoBehaviour {
         {
             boat.GetComponent<BoatHealth>().setBoatHealth(2);
         }
+
     }
 
     private int getSpawnIndex()
@@ -149,5 +151,12 @@ public class SpawnManager : MonoBehaviour {
         waveManager.CheckIfNeedToIncreaseWave(numberOfDestroyedBoats);
     }
 
+    public void DisableAllActiveBoats()
+    {
+        foreach  (GameObject boat in boats)
+        {
+            boat.SetActive(false);
+        }
+    }
     
 }

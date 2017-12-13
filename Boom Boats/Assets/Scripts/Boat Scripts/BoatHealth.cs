@@ -11,7 +11,7 @@ public class BoatHealth : MonoBehaviour {
         healthPoints = health;
     }
 
-    public void reductBoatHealth()
+    public void reduceBoatHealth()
     {
         healthPoints--;
     }

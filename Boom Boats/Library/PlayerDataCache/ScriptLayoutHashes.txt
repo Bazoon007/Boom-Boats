@@ -100,6 +100,7 @@ ff05dcdf90651c3d98a9cad3df5e471e UnityEngine.Timeline.dll:UnityEngine.Timeline.C
 466617b6f02a49d6caf2b10048fd2526 UnityEngine.Timeline.dll:UnityEngine.Timeline.GroupTrack
 466617b6f02a49d6caf2b10048fd2526 UnityEngine.Timeline.dll:UnityEngine.Timeline.PlayableTrack
 c24a21b131bfa67be1162db2cba4b52b UnityEngine.Timeline.dll:UnityEngine.Timeline.TimelineAsset
+0bbce05d2044db8a1aff13334313abaa Assembly-CSharp.dll:.BoatHealth
 fc1e0f4d8439d9928083474691511a13 UnityEngine.Networking.dll:UnityEngine.Networking.NetworkAnimator
 05524b8f659e7bfe5756d1335fec24ba UnityEngine.Networking.dll:UnityEngine.Networking.NetworkBehaviour
 60b2bb652410a5867a5ab9a01cd38461 UnityEngine.Networking.dll:UnityEngine.Networking.NetworkDiscovery
@@ -123,6 +124,7 @@ bc68edb0af574bf79f9550ead8ebae5c UnityEngine.HoloLens.dll:UnityEngine.Audio.Audi
 463516d5b5fe8e67a0a24c48f2095b04 UnityEngine.HoloLens.dll:UnityEngine.EventSystems.HoloLensInputModule
 c2275a8bfbb9f9942cad75ecdfded41d UnityEngine.HoloLens.dll:UnityEngine.VR.WSA.SpatialMappingCollider
 45f3431f0103c41611e8d4eec3d439df UnityEngine.HoloLens.dll:UnityEngine.VR.WSA.SpatialMappingRenderer
+5d6f2ccf8d01becb8ef77a6b7209f544 Assembly-CSharp.dll:.WaveManager
 05524b8f659e7bfe5756d1335fec24ba Assembly-UnityScript.dll:.GA_FREE_JS_OpenOtherScene
 1200ccb98731f60126b17cf54760314b Assembly-CSharp.dll:.Destroyer
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.GA_FREE_Demo00
@@ -169,6 +171,7 @@ e16741e25fc2f13c6e39c95d67c29ac4 Assembly-CSharp.dll:.GA_FREE_Demo02
 637a372a8286eb3be48e0ecd4a7ee7ac Assembly-CSharp.dll:.GA_FREE_DemoPlaySound
 4cdf770be564a7ce52469d3880cbbf79 Assembly-CSharp.dll:.GA_FREE_Demo08
 e7cecaedb57da7aa2da2ecf128a29c40 Assembly-CSharp.dll:.GA_FREE_Demo03
-26316eb10ba1f585b2b236b5aed39f55 Assembly-CSharp.dll:.SpawnManager
+fb1bfd707617e490145e2c5724520cf8 Assembly-CSharp.dll:.SpawnManager
 e1b523733e31491ecb16527c7582e72c Assembly-UnityScript.dll:.GA_FREE_JS_Demo01
 42057599834e76900d0987379e4fa2cd Assembly-CSharp.dll:.GA_FREE_Demo06
+94c793b45867b3057598bb51cd562c26 Assembly-CSharp.dll:.CannonHealth

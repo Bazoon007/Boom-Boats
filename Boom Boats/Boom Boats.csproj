@@ -102,6 +102,7 @@
     <Compile Include="Assets\GUI Animator\GUI Animator FREE\Demo Basic (CSharp)\Scripts\GUIAnimatorFREEDemo.cs" />
     <Compile Include="Assets\Scripts\Boat Scripts\BoatHealth.cs" />
     <Compile Include="Assets\Scripts\Boat Scripts\BoatMover.cs" />
+    <Compile Include="Assets\Scripts\Cannon Scripts\CannonHealth.cs" />
     <Compile Include="Assets\Scripts\Cannon Scripts\CannonShoot.cs" />
     <Compile Include="Assets\Scripts\Cannon Scripts\MoveLeftRight.cs" />
     <Compile Include="Assets\Scripts\CannonBall Scripts\CannonBall.cs" />

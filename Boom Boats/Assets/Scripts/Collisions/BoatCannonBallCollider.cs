@@ -8,16 +8,18 @@ public class BoatCannonBallCollider : MonoBehaviour {
     {
         if (other.tag == "Cannon")
         {
-           // Debug.Log("Hit Cannon " + other.GetComponent<MoveLeftRight>().location);
+            // Debug.Log("Hit Cannon " + other.GetComponent<MoveLeftRight>().location);
+            other.GetComponent<CannonHealth>().ReduceCannonHealth();
             deactivate(); ;
         }
         else if (other.tag == "Cannonball")
         {
             //Debug.Log("Boom");
-            gameObject.GetComponent<BoatHealth>().reductBoatHealth();
+            gameObject.GetComponent<BoatHealth>().reduceBoatHealth();
             if (gameObject.GetComponent<BoatHealth>().healthPoints < 1)
             {
                 gameObject.GetComponent<BoatMover>().spawnManager.IncreaseNumberOfDestroyedBoats();
+                gameObject.tag = "BoatAfterHit";
                 deactivate();
             }
             else
@@ -26,6 +28,10 @@ public class BoatCannonBallCollider : MonoBehaviour {
             }
 
             Destroy(other.gameObject);
+        }
+        else if (other.tag == "BoatAfterHit")
+        {
+            GetComponent<BoatMover>().ChangeDirection();
         }
 
     }
