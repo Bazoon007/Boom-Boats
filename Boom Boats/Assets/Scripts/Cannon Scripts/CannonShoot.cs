@@ -32,7 +32,7 @@ public class CannonShoot : MonoBehaviour {
             nextFire = Time.time + fireRate;
             GameObject go = Instantiate(cannonBall, shotSpawn.position, shotSpawn.rotation);
 
-            go.GetComponent<CannonBall>().cannonBallIndex = this.GetComponent<MoveLeftRight>().location;
+            go.GetComponent<CannonBall>().cannonBallIndex = this.GetComponent<Cannon>().location;
         }
     }
 }

@@ -4,13 +4,15 @@ using UnityEngine;
 
 public class BoatCannonBallCollider : MonoBehaviour {
 
+    public ScoreManager scoreManager;
+
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Cannon")
+        if (other.tag == "Island")
         {
             // Debug.Log("Hit Cannon " + other.GetComponent<MoveLeftRight>().location);
-            other.GetComponent<CannonHealth>().ReduceCannonHealth();
-            deactivate(); ;
+            other.GetComponent<IslandHealth>().ReduceIslandHealth();
+            deactivate(); 
         }
         else if (other.tag == "Cannonball")
         {
@@ -18,8 +20,8 @@ public class BoatCannonBallCollider : MonoBehaviour {
             gameObject.GetComponent<BoatHealth>().reduceBoatHealth();
             if (gameObject.GetComponent<BoatHealth>().healthPoints < 1)
             {
-                gameObject.GetComponent<BoatMover>().spawnManager.IncreaseNumberOfDestroyedBoats();
                 gameObject.tag = "BoatAfterHit";
+                scoreManager.UpdateScore(other.GetComponent<CannonBall>().cannonBallIndex);
                 deactivate();
             }
             else

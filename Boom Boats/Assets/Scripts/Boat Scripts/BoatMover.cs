@@ -7,7 +7,7 @@ public class BoatMover : MonoBehaviour {
     public float speed;
     public int target;
     public SpawnManager spawnManager;
-    private int m;
+    //private int m;
     private Rigidbody rb;
     public float rotationSpeed;
 
@@ -19,7 +19,7 @@ public class BoatMover : MonoBehaviour {
 
         targetTransform = GameObject.Find("Cannon" + target).transform;
         
-        m = 0;
+        //m = 0;
     }
 
     // Update is called once per frame
@@ -46,19 +46,32 @@ public class BoatMover : MonoBehaviour {
             {
                 nextTarget = 3;
             }
+
+            while (spawnManager.spawnPointsCountArray[nextTarget] == int.MaxValue)
+            {
+                nextTarget = nextTarget - 1;
+                if (nextTarget < 0)
+                {
+                    nextTarget = 3;
+                }
+            } 
         }
         else
         {
             nextTarget = (target + 1) % 4;
+            while (spawnManager.spawnPointsCountArray[nextTarget] == int.MaxValue) 
+            {
+                nextTarget = (nextTarget + 1) % 4;
+            }
         }
 
         //m = (m + 1) % 2;
         //gameObject.transform.forward = Vector3.RotateTowards(transform.forward,Vector3.Normalize(GameObject.Find("Cannon" + nextTarget).transform.position - transform.position), 30f * Time.deltaTime, 0f);
+
         targetTransform = GameObject.Find("Cannon" + nextTarget).transform;
+        
             //(GameObject.Find("Cannon" + nextTarget).transform);
     }
-
-    
 
     void OnDisable()
     {

@@ -15,9 +15,7 @@ public class SpawnManager : MonoBehaviour {
     public int[] spawnPointsCountArray;
     private byte minCount;
     private int min;
-    public int numberOfDestroyedBoats;
-    public WaveManager waveManager;
-    
+    public MasterManager masterManager;
 
     public float startingZposition;
 
@@ -25,12 +23,26 @@ public class SpawnManager : MonoBehaviour {
     {
         return FindObjectOfType<SpawnManager>();
     }
+
+    internal int FindWinner()
+    {
+        for (int i = 0; i < 4; i++)
+        {
+            if (spawnPointsCountArray[i] != int.MaxValue)
+            {
+                return i;
+            }
+        }
+
+        return -1;
+    }
+
     void Start ()
     {
-        InitiateBoats(maxBoats, waveManager.currentWave);
+        InitiateBoats(maxBoats, masterManager.waveManager.currentWave);
         InitiateSpawnPoints();
-        numberOfDestroyedBoats = 0;
     }
+
     private void InitiateSpawnPoints()
     {
         spawnPoints = new Vector3[4];
@@ -54,6 +66,7 @@ public class SpawnManager : MonoBehaviour {
         for (int i = 0; i < numberOfBoats; i++)
         {
             GameObject newBoat = (GameObject)Instantiate(boat);
+            newBoat.GetComponent<BoatCannonBallCollider>().scoreManager = masterManager.scoreManager;
             newBoat.SetActive(false);
             boats[i] = newBoat;
         }
@@ -61,7 +74,7 @@ public class SpawnManager : MonoBehaviour {
 
     private void Update()
     {
-        if (Time.time > lastSpawn)
+        if (Time.time > lastSpawn && !masterManager.isGameEnded())
         {
             lastSpawn = Time.time + spawnTime;
             Spawn();
@@ -99,7 +112,7 @@ public class SpawnManager : MonoBehaviour {
 
     private void initiateBoatHealth(GameObject boat)
     {
-        if (waveManager.currentWave < 1)
+        if (masterManager.waveManager.currentWave < 1)
         {
             boat.GetComponent<BoatHealth>().setBoatHealth(1);
         }
@@ -145,18 +158,18 @@ public class SpawnManager : MonoBehaviour {
         spawnPointsCountArray[target]--;
     }
 
-    public void IncreaseNumberOfDestroyedBoats()
-    {
-        numberOfDestroyedBoats++;
-        waveManager.CheckIfNeedToIncreaseWave(numberOfDestroyedBoats);
-    }
-
     public void DisableAllActiveBoats()
     {
         foreach  (GameObject boat in boats)
         {
             boat.SetActive(false);
         }
+    }
+
+    public void OnIslandDeath(int islandIndex)
+    {
+        spawnPointsCountArray[islandIndex] = int.MaxValue;
+        masterManager.IslandDown();
     }
     
 }

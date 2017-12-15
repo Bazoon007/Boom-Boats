@@ -9,6 +9,7 @@ TagManager:
   - Cannon
   - Cannonball
   - BoatAfterHit
+  - Island
   layers:
   - Default
   - TransparentFX
