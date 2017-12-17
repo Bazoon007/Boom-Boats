@@ -10,7 +10,7 @@ public class BorderCollision : MonoBehaviour {
         {
             Destroy(other.gameObject);
         }
-        else if (other.tag == "Diag" || other.tag == "RDiag")
+        else if (other.tag == "Diag" || other.tag == "RDiag" || other.tag == "BoatAfterHit")
         {
             other.gameObject.SetActive(false);
         }

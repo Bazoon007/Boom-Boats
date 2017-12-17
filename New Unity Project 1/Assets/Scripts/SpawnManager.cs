@@ -36,7 +36,7 @@ public class SpawnManager : MonoBehaviour {
         {
             spawnPointsCountArray[i] = 0;
         }
-        InvokeRepeating("Spawn", spawnTime, spawnTime);
+        InvokeRepeating("Spawn", 0.5f, spawnTime);
 	}
 
     
@@ -47,7 +47,7 @@ public class SpawnManager : MonoBehaviour {
         {
             if(!boats[i].activeInHierarchy)
             {
-                int j = getSpawnIndex();
+                int j = 0; //getSpawnIndex();
                 spawnPointsCountArray[j]++;
                 if (j % 2 == 0)
                 {

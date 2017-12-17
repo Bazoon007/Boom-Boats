@@ -249,6 +249,8 @@
     <Compile Include="Assets\GUI Animator\GUI Animator FREE\Demo Basic (CSharp)\Scripts\GUIAnimatorFREEDemo.cs" />
     <Compile Include="Assets\Scripts\AutoRotateScreen.cs" />
     <Compile Include="Assets\Scripts\BoatMover.cs" />
+    <Compile Include="Assets\Scripts\BorderCollision.cs" />
+    <Compile Include="Assets\Scripts\CannonBall.cs" />
     <Compile Include="Assets\Scripts\Destroyer.cs" />
     <Compile Include="Assets\Scripts\MoveLeftRight.cs" />
     <Compile Include="Assets\Scripts\Mover.cs" />
@@ -256,6 +258,7 @@
     <Compile Include="Assets\Scripts\Rotate.cs" />
     <Compile Include="Assets\Scripts\SpawnManager.cs" />
     <Compile Include="Assets\Scripts\TestTouch.cs" />
+    <Compile Include="Assets\Scripts\TextManager.cs" />
     <Compile Include="Assets\Scripts\TouchInput.cs" />
     <Compile Include="Assets\Water Flow FREE\Scripts\WaterFlowFREEDemo.cs" />
   </ItemGroup>

@@ -91,11 +91,11 @@ public class SpawnManager : MonoBehaviour {
                 spawnPointsCountArray[j]++;
                 if (j % 2 == 0)
                 {
-                    boats[i].tag = "Diag";
+                    boats[i].tag = "RDiag";
                 }
                 else
                 {
-                    boats[i].tag = "RDiag";
+                    boats[i].tag = "Diag";
                 }
                 boats[i].GetComponent<BoatMover>().target = j;
                 boats[i].transform.position = spawnPoints[j];
