@@ -7,22 +7,16 @@ public class BoatMover : MonoBehaviour {
     public float speed;
     public int target;
     public SpawnManager spawnManager;
-    private int m;
+    private int flipFlag;
     private Rigidbody rb;
     public float rotationSpeed;
-    private float angleY;
-    private float angleX;
     private Transform targetTransform;
+    public float flipAngle;
 
     // Use this for initialization
     void OnEnable()
     {
-        targetTransform = GameObject.Find("Cannon" + target).transform;
-        transform.LookAt(targetTransform);
-        angleY = transform.eulerAngles.y;
-        angleX = transform.eulerAngles.y;
-        initAngleDelta();
-        m = 0;
+        initTransform();
     }
 
     // Update is called once per frame
@@ -33,8 +27,7 @@ public class BoatMover : MonoBehaviour {
         }
         else
         {
-            //sailingMovement();
-            damagedMovement();
+            sailingMovement();
         }
 
     }
@@ -93,35 +86,31 @@ public class BoatMover : MonoBehaviour {
 
     private void sailingMovement()
     {
+        /*
         GetComponent<Rigidbody>().velocity = transform.forward * speed;
-        float dirY = Mathf.MoveTowardsAngle(transform.eulerAngles.y, (transform.eulerAngles.y + transform.eulerAngles.y * 2f) + 90f * m, 90.0f * Time.deltaTime);
+        float dirY = Vector3.RotateTowards(transform.eulerAngles.y, (transform.eulerAngles.y + transform.eulerAngles.y * 2f) + 90f * m, 90.0f * Time.deltaTime);
         float dirX = Mathf.MoveTowardsAngle(transform.eulerAngles.x, (transform.eulerAngles.x + transform.eulerAngles.x*  2f) + 90f * m, 90.0f * Time.deltaTime);
         transform.eulerAngles = new Vector3(dirX, dirY, 0);
+        */
+        GetComponent<Rigidbody>().velocity = transform.forward * speed;
         
+
+
     }
 
     public void borderFlip()
     {
-        m = (m + 1) % 2;
+        transform.Rotate((Vector3.right * (flipAngle * 2) * flipFlag));
+        flipFlag *= -1;
     }
 
-    private void initAngleDelta()
+    private void initTransform()
     {
-        switch (target)
-        {
-            case 0:
-
-                break;
-            case 1:
-
-                break;
-            case 2:
-
-                break;
-            case 3:
-
-                break;
-
-        }
+        targetTransform = GameObject.Find("Cannon" + target).transform;
+        transform.LookAt(targetTransform);
+        transform.Rotate(Vector3.right * flipAngle);
+        flipFlag = -1;
     }
+
+    
 }

@@ -16,6 +16,7 @@ public class SpawnManager : MonoBehaviour {
     private byte minCount;
     private int min;
     public MasterManager masterManager;
+    public float spawnFlipAngle;
 
     public float startingZposition;
 
@@ -87,9 +88,9 @@ public class SpawnManager : MonoBehaviour {
         {
             if(!boats[i].activeInHierarchy)
             {
-                int j = getSpawnIndex();
-                spawnPointsCountArray[j]++;
-                if (j % 2 == 0)
+                int location = getSpawnIndex();
+                spawnPointsCountArray[location]++;
+                if (location % 2 == 0)
                 {
                     boats[i].tag = "RDiag";
                 }
@@ -97,14 +98,7 @@ public class SpawnManager : MonoBehaviour {
                 {
                     boats[i].tag = "Diag";
                 }
-                boats[i].GetComponent<BoatMover>().target = j;
-                boats[i].transform.position = spawnPoints[j];
-                boats[i].transform.rotation = Quaternion.identity;
-                boats[i].GetComponent<BoatMover>().speed = spawnBoatSpeed;
-                boats[i].GetComponent<BoatMover>().spawnManager = this;
-                initiateBoatHealth(boats[i]);
-                boats[i].SetActive(true);
-                
+                activateBoat(i,location);
                 break;
             }
         }
@@ -170,6 +164,18 @@ public class SpawnManager : MonoBehaviour {
     {
         spawnPointsCountArray[islandIndex] = int.MaxValue;
         masterManager.IslandDown();
+    }
+
+    private void activateBoat(int i,int location)
+    {
+        boats[i].GetComponent<BoatMover>().target = location;
+        boats[i].transform.position = spawnPoints[location];
+        boats[i].transform.rotation = Quaternion.identity;
+        boats[i].GetComponent<BoatMover>().speed = spawnBoatSpeed;
+        boats[i].GetComponent<BoatMover>().flipAngle = spawnFlipAngle;
+        boats[i].GetComponent<BoatMover>().spawnManager = this;
+        initiateBoatHealth(boats[i]);
+        boats[i].SetActive(true);
     }
     
 }
