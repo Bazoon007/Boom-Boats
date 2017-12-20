@@ -124,7 +124,7 @@ public class BoatMover : MonoBehaviour {
 
     public void borderFlip()
     {
-        Debug.Log("Flip");
+        //Debug.Log("Flip");
         //endRotationX = (transform.eulerAngles.x + (360 + flipFlag * flipAngle * 2)) % 360;
         StartCoroutine(rotateCoroutine());
         //transform.Rotate((Vector3.right * (flipAngle * 2) * flipFlag));
@@ -145,11 +145,11 @@ public class BoatMover : MonoBehaviour {
 
     IEnumerator rotateCoroutine()
     {
-        Debug.Log("Start");
+        //Debug.Log("Start");
         isFlipping = true;
         yield return new WaitForSeconds(1);
         isFlipping = false;
-        Debug.Log("BOOM");
+        //Debug.Log("BOOM");
     }
 
     
