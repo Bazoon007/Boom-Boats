@@ -8,7 +8,6 @@ public class CampBorderCollision : MonoBehaviour {
     {
         if (CompareTag(other.tag))
         {
-            //Debug.Log("FLIP!");
             if (!other.gameObject.GetComponent<BoatMover>().isFlipping)
             {
                 other.gameObject.GetComponent<BoatMover>().borderFlip();

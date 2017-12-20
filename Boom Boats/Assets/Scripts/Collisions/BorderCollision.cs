@@ -4,15 +4,19 @@ using UnityEngine;
 
 public class BorderCollision : MonoBehaviour {
 
-    private void OnTriggerExit(Collider other)
+    protected void OnTriggerExit(Collider other)
     {
         if (other.tag == "Cannonball")
         {
             Destroy(other.gameObject);
         }
-        else if (other.tag == "Diag" || other.tag == "RDiag" || other.tag == "BoatAfterHit")
-        {
+        else if (other.tag == "BoatAfterHit" || other.tag == "Diag" || other.tag == "RDiag") {
             other.gameObject.SetActive(false);
+            LogSailingBoat(other.tag);
         }
+    }
+
+    protected virtual void LogSailingBoat(string tag) {
+
     }
 }

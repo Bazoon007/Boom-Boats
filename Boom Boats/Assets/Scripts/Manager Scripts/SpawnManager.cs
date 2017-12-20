@@ -16,8 +16,6 @@ public class SpawnManager : MonoBehaviour {
     private byte minCount;
     private int min;
     public MasterManager masterManager;
-    public float spawnFlipAngle;
-
     public float startingZposition;
 
     public static SpawnManager getInstance()
@@ -171,7 +169,6 @@ public class SpawnManager : MonoBehaviour {
         boats[i].transform.position = spawnPoints[location];
         boats[i].transform.rotation = Quaternion.identity;
         boats[i].GetComponent<BoatMover>().speed = spawnBoatSpeed;
-        boats[i].GetComponent<BoatMover>().flipAngle = spawnFlipAngle;
         boats[i].GetComponent<BoatMover>().spawnManager = this;
         initiateBoatHealth(boats[i]);
         boats[i].SetActive(true);
