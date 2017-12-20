@@ -141,6 +141,9 @@ MonoBehaviour:
   target: 0
   spawnManager: {fileID: 0}
   rotationSpeed: 30
+  flipAngle: 0
+  isFlipping: 0
+  flipSpeed: 1.5
 --- !u!135 &135111690816322830
 SphereCollider:
   m_ObjectHideFlags: 1

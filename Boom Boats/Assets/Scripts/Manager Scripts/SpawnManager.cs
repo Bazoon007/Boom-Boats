@@ -34,7 +34,6 @@ public class SpawnManager : MonoBehaviour {
                 return i;
             }
         }
-
         return -1;
     }
 

@@ -12,7 +12,12 @@ public class BoatMover : MonoBehaviour {
     public float rotationSpeed;
     private Transform targetTransform;
     public float flipAngle;
-
+    //private Vector3 rotateVector;
+    //private bool firstFlip;
+    public bool isFlipping;
+    //private float startRotationX;
+    //private float endRotationX;
+    public float flipSpeed;
     // Use this for initialization
     void OnEnable()
     {
@@ -87,11 +92,30 @@ public class BoatMover : MonoBehaviour {
     private void sailingMovement()
     {
         /*
-        GetComponent<Rigidbody>().velocity = transform.forward * speed;
-        float dirY = Vector3.RotateTowards(transform.eulerAngles.y, (transform.eulerAngles.y + transform.eulerAngles.y * 2f) + 90f * m, 90.0f * Time.deltaTime);
-        float dirX = Mathf.MoveTowardsAngle(transform.eulerAngles.x, (transform.eulerAngles.x + transform.eulerAngles.x*  2f) + 90f * m, 90.0f * Time.deltaTime);
-        transform.eulerAngles = new Vector3(dirX, dirY, 0);
+        if (rotateVector != Vector3.zero)
+        {
+           Vector3 dir = Vector3.RotateTowards(transform.forward, rotateVector, rotationSpeed * Time.deltaTime, speed);
+           transform.rotation = Quaternion.LookRotation(dir);
+        }
         */
+        if (isFlipping)
+        {
+            transform.Rotate(Vector3.right * (flipAngle * 2) * flipFlag * Time.deltaTime * flipSpeed);
+            //transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.Euler(transform.eulerAngles.x + (360 + flipFlag * flipAngle * 2) % 360, transform.eulerAngles.y, transform.eulerAngles.z), Time.deltaTime * 50);
+            /*
+            //Debug.Log(Mathf.Abs(startRotationX - transform.rotation.x));
+            if(Mathf.Abs(endRotationX - transform.eulerAngles.x) > 1f)
+            {
+                transform.Rotate(flipFlag * flipAngle * 2 * Vector3.right * Time.deltaTime);
+                Debug.Log(transform.eulerAngles.x);
+            }
+            else
+            {
+                Debug.Log("STOP!");
+                isFlipping = false;
+            }
+            */
+        }
         GetComponent<Rigidbody>().velocity = transform.forward * speed;
         
 
@@ -100,7 +124,11 @@ public class BoatMover : MonoBehaviour {
 
     public void borderFlip()
     {
-        transform.Rotate((Vector3.right * (flipAngle * 2) * flipFlag));
+        Debug.Log("Flip");
+        //endRotationX = (transform.eulerAngles.x + (360 + flipFlag * flipAngle * 2)) % 360;
+        StartCoroutine(rotateCoroutine());
+        //transform.Rotate((Vector3.right * (flipAngle * 2) * flipFlag));
+        //rotateVector = Matrix4x4.Rotate(Quaternion.Euler(flipFlag * (flipAngle * 2), 0, 0)).MultiplyVector(Vector3.Normalize(transform.forward));
         flipFlag *= -1;
     }
 
@@ -108,8 +136,20 @@ public class BoatMover : MonoBehaviour {
     {
         targetTransform = GameObject.Find("Cannon" + target).transform;
         transform.LookAt(targetTransform);
-        transform.Rotate(Vector3.right * flipAngle);
-        flipFlag = -1;
+        transform.Rotate(flipAngle * Vector3.right);
+        flipFlag = 1;
+        //firstFlip = true;
+        isFlipping = false;
+        //rotateVector = Vector3.zero;
+    }
+
+    IEnumerator rotateCoroutine()
+    {
+        Debug.Log("Start");
+        isFlipping = true;
+        yield return new WaitForSeconds(1);
+        isFlipping = false;
+        Debug.Log("BOOM");
     }
 
     
