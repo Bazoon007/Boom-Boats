@@ -37,6 +37,12 @@ public class SpawnManager : MonoBehaviour {
 
     void Start ()
     {
+        ResetSpawnManager();
+    }
+
+    public void ResetSpawnManager()
+    {
+        DisableAllActiveBoats();
         InitiateBoats(maxBoats, masterManager.waveManager.currentWave);
         InitiateSpawnPoints();
     }
@@ -66,13 +72,14 @@ public class SpawnManager : MonoBehaviour {
             GameObject newBoat = (GameObject)Instantiate(boat);
             newBoat.GetComponent<BoatCannonBallCollider>().scoreManager = masterManager.scoreManager;
             newBoat.SetActive(false);
+            newBoat.GetComponent<BoatMover>().masterManager = masterManager;
             boats[i] = newBoat;
         }
     }
 
     private void Update()
     {
-        if (Time.time > lastSpawn && !masterManager.isGameEnded())
+        if ((Time.time > lastSpawn && masterManager.IsGameRunning()))
         {
             lastSpawn = Time.time + spawnTime;
             Spawn();

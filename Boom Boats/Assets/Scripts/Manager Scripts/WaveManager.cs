@@ -12,8 +12,7 @@ public class WaveManager : MonoBehaviour {
 
     private void Start()
     {
-        currentWave = 0;
-        updateWaveText();
+        ResetWaveManager();
     }
 
     private void updateWaveText()
@@ -37,4 +36,9 @@ public class WaveManager : MonoBehaviour {
         masterManager.spawnManager.DisableAllActiveBoats();
     }
 
+    public void ResetWaveManager()
+    {
+        currentWave = 0;
+        updateWaveText();
+    }
 }

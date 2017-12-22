@@ -14,6 +14,7 @@ public class BoatMover : MonoBehaviour {
     public float flipAngle;
     public bool isFlipping;
     public float flipSpeed;
+    public MasterManager masterManager;
 
     void OnEnable()
     {
@@ -21,14 +22,23 @@ public class BoatMover : MonoBehaviour {
     }
 
     void Update () {
-        if (gameObject.tag == "BoatAfterHit")
+        if (masterManager.IsGameRunning())
         {
-            damagedMovement();
+            Time.timeScale = 1;
+            if (gameObject.tag == "BoatAfterHit")
+            {
+                damagedMovement();
+            }
+            else
+            {
+                sailingMovement();
+            }
         }
         else
         {
-            sailingMovement();
+            Time.timeScale = 0;
         }
+        
 
     }
 

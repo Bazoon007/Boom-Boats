@@ -14,14 +14,7 @@ public class ScoreManager : MonoBehaviour {
     // Use this for initialization
     void Start ()
     {
-        totalCannonScores = new int[4];
-        waveCannonScores = new int[4];
-        totalScore = 0;
-        waveScore = 0;
-        lastWaveWinner = -1;
-
-        resetScoreArray(totalCannonScores);
-        resetScoreArray(waveCannonScores);
+        ResetScoreManager();
     }
 
     private void resetScoreArray(int[] scoreArray)
@@ -98,5 +91,17 @@ public class ScoreManager : MonoBehaviour {
         waveCannonScores[1] = 0;
         waveCannonScores[2] = 0;
         waveCannonScores[3] = 0;
+    }
+
+    public void ResetScoreManager()
+    {
+        totalCannonScores = new int[4];
+        waveCannonScores = new int[4];
+        totalScore = 0;
+        waveScore = 0;
+        lastWaveWinner = -1;
+
+        resetScoreArray(totalCannonScores);
+        resetScoreArray(waveCannonScores);
     }
 }

@@ -6,9 +6,8 @@ public class IslandHealth : MonoBehaviour {
 
     private int health;
     public int initialHealth;
-    public WaveManager waveManager;
-    public SpawnManager spawnManager;
-
+    public MasterManager masterManager;
+    
     private void Start()
     {
         health = initialHealth;
@@ -27,9 +26,16 @@ public class IslandHealth : MonoBehaviour {
 
     private void islandDied()
     {
-        waveManager.IncreaseWave(true);
-        spawnManager.OnIslandDeath(gameObject.GetComponent<IslandCannonRelation>().cannon.location);
+        masterManager.waveManager.IncreaseWave(true);
+        masterManager.spawnManager.OnIslandDeath(gameObject.GetComponent<IslandCannonRelation>().cannon.location);
         gameObject.GetComponent<IslandCannonRelation>().cannon.gameObject.SetActive(false);
         gameObject.SetActive(false);
+    }
+
+    public void ResetIsland()
+    {
+        health = initialHealth;
+        gameObject.GetComponent<IslandCannonRelation>().cannon.gameObject.SetActive(true);
+        gameObject.SetActive(true);
     }
 }

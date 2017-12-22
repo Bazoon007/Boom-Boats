@@ -7,6 +7,7 @@ public class MoveLeftRight : MonoBehaviour {
     public float rotationLimit;
     public Transform shootingPointTranform;
     public int location;
+    public MasterManager masterManager;
 
     private float startingXRotation;
     private float startingYRotation;
@@ -19,49 +20,53 @@ public class MoveLeftRight : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        transform.Rotate(new Vector3(0f, 1f, 0f), rotationSpeed * Time.deltaTime);
-        
-        if (location == 0 || location == 2 || location == 3)
+        if (masterManager.IsGameRunning())
         {
-            /*
-            if (location == 0)
+            transform.Rotate(new Vector3(0f, 1f, 0f), rotationSpeed * Time.deltaTime);
+
+            if (location == 0 || location == 2 || location == 3)
             {
-                Debug.Log("Start " + startingXRotation + " current x " + transform.rotation.x + " currentY " + transform.rotation.y);
-            }*/
-            if (rotationSpeed > 0)
-            {
-                if (transform.rotation.x > startingXRotation + rotationLimit)
+                /*
+                if (location == 0)
                 {
-                    rotationSpeed *= -1;
+                    Debug.Log("Start " + startingXRotation + " current x " + transform.rotation.x + " currentY " + transform.rotation.y);
+                }*/
+                if (rotationSpeed > 0)
+                {
+                    if (transform.rotation.x > startingXRotation + rotationLimit)
+                    {
+                        rotationSpeed *= -1;
+                    }
+                }
+                else
+                {
+                    if (transform.rotation.x < startingXRotation - rotationLimit)
+                    {
+                        rotationSpeed *= -1;
+                    }
                 }
             }
-            else
+            else if (location == 1)
             {
-                if (transform.rotation.x < startingXRotation - rotationLimit)
+                if (rotationSpeed > 0)
                 {
-                    rotationSpeed *= -1;
+                    if (transform.rotation.y < startingYRotation - rotationLimit)
+                    {
+                        rotationSpeed *= -1;
+                    }
                 }
-            }
-        }
-        else if (location == 1)
-        {
-            if (rotationSpeed > 0)
-            {
-                if (transform.rotation.y < startingYRotation - rotationLimit)
+                else
                 {
-                    rotationSpeed *= -1;
+                    if (transform.rotation.y > startingYRotation + rotationLimit)
+                    {
+                        rotationSpeed *= -1;
+                    }
                 }
+                //Debug.Log(transform.rotation.y);
             }
-            else
-            {
-                if (transform.rotation.y > startingYRotation + rotationLimit)
-                {
-                    rotationSpeed *= -1;
-                }
-            }
-            //Debug.Log(transform.rotation.y);
-        }
-        
+
             //Debug.Log(startingXRotation /*+ " " + transform.rotation.x*/ + " " + location);
-	}
+        }
+
+    }
 }
