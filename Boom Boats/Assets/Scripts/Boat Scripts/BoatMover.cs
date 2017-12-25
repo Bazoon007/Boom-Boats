@@ -38,6 +38,24 @@ public class BoatMover : MonoBehaviour {
         {
             Time.timeScale = 0;
         }
+
+        if (transform.rotation.x < 0 || transform.rotation.y < 0)
+        {
+            if (target == 0 || target == 3)
+            {
+                transform.GetChild(0).localRotation = Quaternion.Euler(0f, -90f, -90f);
+            }
+        }
+        else
+        {
+            if (target == 1 || target == 2)
+            {
+                transform.GetChild(0).localRotation = Quaternion.Euler(0f, 90f, 90f);
+            }
+        }
+
+        
+
         
 
     }
