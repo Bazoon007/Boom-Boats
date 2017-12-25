@@ -17,12 +17,12 @@ public class WaveManager : MonoBehaviour {
 
     private void updateWaveText()
     {
-        waveText.text = "Current Wave: " + currentWave;
+        waveText.text = "Current Wave: " + currentWave + " " + masterManager.spawnManager.spawnBoatSpeed;
     }
 
     public void CheckIfNeedToIncreaseWave(int waveScore)
     {
-        if (waveScore == waveLength)
+        if (waveScore == waveLength + currentWave)
         {
             IncreaseWave(false);
         }
@@ -34,6 +34,11 @@ public class WaveManager : MonoBehaviour {
         updateWaveText();
         masterManager.scoreManager.EndOfWave(didIslandDie);
         masterManager.spawnManager.DisableAllActiveBoats();
+        masterManager.spawnManager.spawnTime *= 0.9f;
+        if (masterManager.spawnManager.spawnBoatSpeed < 2.25f)
+        {
+            masterManager.spawnManager.spawnBoatSpeed *= 1.025f;
+        }
     }
 
     public void ResetWaveManager()

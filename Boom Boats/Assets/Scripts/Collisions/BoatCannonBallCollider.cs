@@ -17,16 +17,22 @@ public class BoatCannonBallCollider : MonoBehaviour {
         else if (other.tag == "Cannonball")
         {
             //Debug.Log("Boom");
-            gameObject.GetComponent<BoatHealth>().reduceBoatHealth();          
-            if (gameObject.GetComponent<BoatHealth>().healthPoints < 1)
+            int target = this.gameObject.GetComponent<BoatMover>().target;
+            bool isflipping = this.gameObject.GetComponent<BoatMover>().isFlipping;
+
+            if (target == other.gameObject.GetComponent<CannonBall>().cannonBallIndex || !isflipping)
             {
-                scoreManager.UpdateScore(other.GetComponent<CannonBall>().cannonBallIndex);
-                deactivate();
-            }
-            else
-            {
-                gameObject.tag = "BoatAfterHit";
-                GetComponent<BoatMover>().ChangeDirection();
+                gameObject.GetComponent<BoatHealth>().reduceBoatHealth();
+                if (gameObject.GetComponent<BoatHealth>().healthPoints < 1)
+                {
+                    scoreManager.UpdateScore(other.GetComponent<CannonBall>().cannonBallIndex);
+                    deactivate();
+                }
+                else
+                {
+                    gameObject.tag = "BoatAfterHit";
+                    GetComponent<BoatMover>().ChangeDirection();
+                }
             }
 
             Destroy(other.gameObject);
