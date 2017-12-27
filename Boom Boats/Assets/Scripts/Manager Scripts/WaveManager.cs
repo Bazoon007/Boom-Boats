@@ -17,7 +17,7 @@ public class WaveManager : MonoBehaviour {
 
     private void updateWaveText()
     {
-        waveText.text = "Current Wave: " + currentWave + " " + masterManager.spawnManager.spawnBoatSpeed;
+        waveText.text = "Current Wave: " + currentWave;
     }
 
     public void CheckIfNeedToIncreaseWave(int waveScore)
