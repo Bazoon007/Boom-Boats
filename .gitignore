@@ -35,5 +35,5 @@ sysinfo.txt
 *.unitypackage
 
 # Desktop.ini
-desktop.ini
+desktop.ini*
 
