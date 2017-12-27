@@ -167,12 +167,13 @@ public class SpawnManager : MonoBehaviour {
     public void OnIslandDeath(int islandIndex)
     {
         spawnPointsCountArray[islandIndex] = int.MaxValue;
+
         masterManager.IslandDown();
     }
 
     private void activateBoat(int i,int location)
     {
-        boats[i].GetComponent<BoatMover>().target = location;
+        boats[i].GetComponent<BoatMover>().orignialTarget = location;
         boats[i].transform.position = spawnPoints[location];
         boats[i].transform.rotation = Quaternion.identity;
         boats[i].GetComponent<BoatMover>().speed = spawnBoatSpeed;

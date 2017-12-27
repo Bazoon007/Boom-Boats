@@ -17,7 +17,7 @@ public class BoatCannonBallCollider : MonoBehaviour {
         else if (other.tag == "Cannonball")
         {
             //Debug.Log("Boom");
-            int target = this.gameObject.GetComponent<BoatMover>().target;
+            int target = this.gameObject.GetComponent<BoatMover>().orignialTarget;
             bool isflipping = this.gameObject.GetComponent<BoatMover>().isFlipping;
 
             if (target == other.gameObject.GetComponent<CannonBall>().cannonBallIndex || !isflipping)
