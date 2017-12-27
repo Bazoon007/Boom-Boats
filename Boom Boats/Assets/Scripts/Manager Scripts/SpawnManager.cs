@@ -93,7 +93,7 @@ public class SpawnManager : MonoBehaviour {
             if(!boats[i].activeInHierarchy)
             {
                 int location = getSpawnIndex();
-                spawnPointsCountArray[location]++;
+                addBoatToList(location);
                 if (location % 2 == 0)
                 {
                     boats[i].tag = "RDiag";
@@ -156,12 +156,21 @@ public class SpawnManager : MonoBehaviour {
         spawnPointsCountArray[target]--;
     }
 
+    public void addBoatToList(int target)
+    {
+        spawnPointsCountArray[target]++;
+    }
+
     public void DisableAllActiveBoats()
     {
-        foreach  (GameObject boat in boats)
+        foreach (GameObject boat in boats)
         {
-            boat.SetActive(false);
+            if (boat.activeInHierarchy)
+            {
+                boat.SetActive(false);
+            }
         }
+
     }
 
     public void OnIslandDeath(int islandIndex)
@@ -177,7 +186,6 @@ public class SpawnManager : MonoBehaviour {
         boats[i].transform.position = spawnPoints[location];
         boats[i].transform.rotation = Quaternion.identity;
         boats[i].GetComponent<BoatMover>().speed = spawnBoatSpeed;
-        boats[i].GetComponent<BoatMover>().spawnManager = this;
         initiateBoatHealth(boats[i]);
         boats[i].SetActive(true);
     }

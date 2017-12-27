@@ -31,15 +31,15 @@ public class BoatCannonBallCollider : MonoBehaviour {
                 else
                 {
                     gameObject.tag = "BoatAfterHit";
-                    GetComponent<BoatMover>().ChangeDirection();
+                    GetComponent<BoatMover>().ChangeDirection(false);
                 }
             }
 
             Destroy(other.gameObject);
         }
-        else if (other.tag == "BoatAfterHit")
+        else if (other.tag == "BoatAfterHit" && gameObject.tag == "BoatAfterHit")
         {
-            GetComponent<BoatMover>().ChangeDirection();
+            GetComponent<BoatMover>().ChangeDirection(true);
         }
 
     }

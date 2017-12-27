@@ -6,7 +6,6 @@ public class BoatMover : MonoBehaviour {
 
     public float speed;
     public int orignialTarget;
-    public SpawnManager spawnManager;
     private int flipFlag;
     private Rigidbody rb;
     public float rotationSpeed;
@@ -80,17 +79,26 @@ public class BoatMover : MonoBehaviour {
 
     }
 
-    public void ChangeDirection()
+    public void ChangeDirection(bool colidedBoat)
     {
+        int t;
+        if (colidedBoat)
+        {
+            t = nextTarget;
+        }
+        else
+        {
+            t = orignialTarget;
+        }
         if (Random.Range(-1, 1) < 0)
         {
-            nextTarget = orignialTarget - 1;
+            nextTarget = t - 1;
             if (nextTarget < 0)
             {
                 nextTarget = 3;
             }
 
-            while (spawnManager.spawnPointsCountArray[nextTarget] == int.MaxValue)
+            while (masterManager.spawnManager.spawnPointsCountArray[nextTarget] == int.MaxValue)
             {
                 nextTarget = nextTarget - 1;
                 if (nextTarget < 0)
@@ -101,28 +109,26 @@ public class BoatMover : MonoBehaviour {
         }
         else
         {
-            nextTarget = (orignialTarget + 1) % 4;
-            while (spawnManager.spawnPointsCountArray[nextTarget] == int.MaxValue)
+            nextTarget = (t + 1) % 4;
+            while (masterManager.spawnManager.spawnPointsCountArray[nextTarget] == int.MaxValue)
             {
                 nextTarget = (nextTarget + 1) % 4;
             }
         }
         targetTransform = GameObject.Find("Cannon" + nextTarget).transform;
-
-        updateSpawnPointsOnChange();
+        updateSpawnPointsOnChange(t);
 
     }
 
-    private void updateSpawnPointsOnChange()
+    private void updateSpawnPointsOnChange(int t)
     {
-        spawnManager.spawnPointsCountArray[orignialTarget]--;
-        spawnManager.spawnPointsCountArray[nextTarget]++;
+        masterManager.spawnManager.removeBoatFromList(t);
+        masterManager.spawnManager.addBoatToList(nextTarget);
     }
 
     void OnDisable()
     {
-        spawnManager.removeBoatFromList(nextTarget);
-        CancelInvoke();
+        masterManager.spawnManager.removeBoatFromList(nextTarget);
     }
 
     private void damagedMovement() 
