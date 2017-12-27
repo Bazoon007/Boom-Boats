@@ -40,7 +40,7 @@ public class IslandHealth : MonoBehaviour {
         
     }
 
-    private void IncreaseIslandHealth()
+    public void IncreaseIslandHealth()
     {
         if (health < 3)
         {

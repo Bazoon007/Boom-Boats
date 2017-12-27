@@ -10,6 +10,10 @@ public class ScoreManager : MonoBehaviour {
     public int waveScore;
     public int lastWaveWinner;
     public MasterManager masterManager;
+    public GameObject Island0;
+    public GameObject Island1;
+    public GameObject Island2;
+    public GameObject Island3;
 
     // Use this for initialization
     void Start ()
@@ -76,10 +80,38 @@ public class ScoreManager : MonoBehaviour {
         if (maxCount == 1)
         {
             lastWaveWinner = maxCannonIndex;
+            activateIncreaseHealth(lastWaveWinner);
         }
         else
         {
             lastWaveWinner = -1;
+        }
+
+        
+    }
+
+    private void activateIncreaseHealth(int lastWaveWinner)
+    {
+        switch (lastWaveWinner)
+        {
+            case 0:
+                Island0.GetComponent<IslandHealth>().IncreaseIslandHealth();
+                break;
+
+            case 1:
+                Island1.GetComponent<IslandHealth>().IncreaseIslandHealth();
+                break;
+
+            case 2:
+                Island2.GetComponent<IslandHealth>().IncreaseIslandHealth();
+                break;
+
+            case 3:
+                Island3.GetComponent<IslandHealth>().IncreaseIslandHealth();
+                break;
+
+            default:
+                break;
         }
     }
 
