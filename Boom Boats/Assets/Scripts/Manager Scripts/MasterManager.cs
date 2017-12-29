@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class MasterManager : MonoBehaviour {
@@ -26,6 +23,14 @@ public class MasterManager : MonoBehaviour {
         resetMasterManager(false);
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            pauseGame();
+        }
+    }
+
     public bool IsGameRunning()
     {
         return gameIsRunning;
@@ -42,6 +47,22 @@ public class MasterManager : MonoBehaviour {
         checkIfGameEnded();
     }
 
+    public void ResetGame()
+    {
+        waveManager.ResetWaveManager();
+        scoreManager.ResetScoreManager();
+        spawnManager.ResetSpawnManager();
+        resetIslandsAndCannons();
+        resetMasterManager(true);
+        endGamePanel.gameObject.SetActive(false);
+        
+    }
+
+    public void ResumeGame()
+    {
+        gameIsRunning = true;
+    }
+
     private void checkIfGameEnded()
     {
         if (numberOfActiveIslands == 1)
@@ -51,17 +72,13 @@ public class MasterManager : MonoBehaviour {
         }
     }
 
-    public void ResumeGame()
-    {
-        AudioListener.pause = false;
-        gameIsRunning = true;
-    }
-
     private void endGame(int winner)
     {
         int waveNumber = waveManager.currentWave;
+
         finalWaveText.text = "The game has ended after " + waveNumber + " waves";
         winningText.text = "Winner is Player " + winner;
+
         waveManager.waveText.text = string.Empty;
         gameIsRunning = false;
         disableAllIslands();
@@ -76,17 +93,6 @@ public class MasterManager : MonoBehaviour {
         Island3.gameObject.SetActive(false);
     }
 
-    public void ResetGame()
-    {
-        waveManager.ResetWaveManager();
-        scoreManager.ResetScoreManager();
-        spawnManager.ResetSpawnManager();
-        resetIslandsAndCannons();
-        resetMasterManager(true);
-        endGamePanel.gameObject.SetActive(false);
-        
-    }
-
     private void resetIslandsAndCannons()
     {
         Island0.ResetIsland();
@@ -99,14 +105,6 @@ public class MasterManager : MonoBehaviour {
     {
         numberOfActiveIslands = 4;
         gameIsRunning = isGameRunning; 
-    }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            pauseGame();
-        }
     }
 
     private void pauseGame()

@@ -1,47 +1,73 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class BoatCannonBallCollider : MonoBehaviour {
 
-    public ScoreManager scoreManager;
+    public MasterManager MasterManager;
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Island")
         {
-            // Debug.Log("Hit Cannon " + other.GetComponent<MoveLeftRight>().location);
-            other.GetComponent<IslandHealth>().ReduceIslandHealth();
-            deactivate(); 
+            triggerIfIsland(other);
         }
         else if (other.tag == "Cannonball")
         {
-            //Debug.Log("Boom");
-            int target = this.gameObject.GetComponent<BoatMover>().orignialTarget;
-            bool isflipping = this.gameObject.GetComponent<BoatMover>().isFlipping;
-
-            if (target == other.gameObject.GetComponent<CannonBall>().cannonBallIndex || !isflipping)
-            {
-                gameObject.GetComponent<BoatHealth>().reduceBoatHealth();
-                if (gameObject.GetComponent<BoatHealth>().healthPoints < 1)
-                {
-                    scoreManager.UpdateScore(other.GetComponent<CannonBall>().cannonBallIndex);
-                    deactivate();
-                }
-                else
-                {
-                    gameObject.tag = "BoatAfterHit";
-                    GetComponent<BoatMover>().ChangeDirection(false);
-                }
-            }
-
-            Destroy(other.gameObject);
+            triggerIfCcanonball(other);
         }
         else if (other.tag == "BoatAfterHit" && gameObject.tag == "BoatAfterHit")
         {
-            GetComponent<BoatMover>().ChangeDirection(true);
+            triggerIfBoatsAfterHit();
+        }
+    }
+
+    private void triggerIfBoatsAfterHit()
+    {
+        GetComponent<BoatMover>().ChangeDirection(true);
+    }
+
+    private void triggerIfCcanonball(Collider other)
+    {
+        int target = gameObject.GetComponent<BoatMover>().orignialTarget;
+        bool isBoatFlipping = gameObject.GetComponent<BoatMover>().isFlipping;
+
+        if (sameTargetOrBoatIsNotFlipping(other, target, isBoatFlipping))
+        {
+            gameObject.GetComponent<BoatHealth>().reduceBoatHealth();
+
+            if (boatIsDead())
+            {
+                MasterManager.scoreManager.UpdateScore(other.GetComponent<CannonBall>().cannonBallIndex);
+                deactivate();
+            }
+            else
+            {
+                changeBoatDirection();
+            }
         }
 
+        Destroy(other.gameObject);
+    }
+
+    private void changeBoatDirection()
+    {
+        gameObject.tag = "BoatAfterHit";
+        GetComponent<BoatMover>().ChangeDirection(false);
+    }
+
+    private bool boatIsDead()
+    {
+        return gameObject.GetComponent<BoatHealth>().healthPoints < 1;
+    }
+
+    private static bool sameTargetOrBoatIsNotFlipping(Collider other, int target, bool isBoatFlipping)
+    {
+        return target == other.gameObject.GetComponent<CannonBall>().cannonBallIndex || !isBoatFlipping;
+    }
+
+    private void triggerIfIsland(Collider other)
+    {
+        other.GetComponent<IslandHealth>().ReduceIslandHealth();
+        deactivate();
     }
 
     private void deactivate()

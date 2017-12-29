@@ -1,29 +1,41 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class SpawnManager : MonoBehaviour {
 
     public float spawnTime;
-    private float lastSpawn;
     public int maxBoats;
+    public MasterManager masterManager;
+    public float startingZposition;
     public GameObject boat;
     public float spawnBoatSpeed;
     public GameObject[] boats;    
     public Vector3[] spawnPoints;
     public int[] spawnPointsCountArray;
+
     private byte minCount;
+    private float lastSpawn;
     private int min;
-    public MasterManager masterManager;
-    public float startingZposition;
+
+    void Start ()
+    {
+        ResetSpawnManager();
+    }
+
+    private void Update()
+    {
+        if ((Time.time > lastSpawn && masterManager.IsGameRunning()))
+        {
+            lastSpawn = Time.time + spawnTime;
+            spawn();
+        }
+    }
 
     public static SpawnManager getInstance()
     {
         return FindObjectOfType<SpawnManager>();
     }
 
-    internal int FindWinner()
+    public int FindWinner()
     {
         for (int i = 0; i < 4; i++)
         {
@@ -35,33 +47,67 @@ public class SpawnManager : MonoBehaviour {
         return -1;
     }
 
-    void Start ()
+    public void RemoveBoatFromList(int target)
     {
-        ResetSpawnManager();
+        spawnPointsCountArray[target]--;
+    }
+
+    public void addBoatToList(int target)
+    {
+        spawnPointsCountArray[target]++;
+    }
+
+    public void DisableAllActiveBoats()
+    {
+        foreach (GameObject boat in boats)
+        {
+            if (boat.activeInHierarchy)
+            {
+                boat.SetActive(false);
+            }
+        }
+
+    }
+
+    public void OnIslandDeath(int islandIndex)
+    {
+        spawnPointsCountArray[islandIndex] = int.MaxValue;
+
+        masterManager.IslandDown();
     }
 
     public void ResetSpawnManager()
     {
         DisableAllActiveBoats();
         InitiateBoats(maxBoats, masterManager.waveManager.currentWave);
-        InitiateSpawnPoints();
+        initiateSpawnPoints();
     }
 
-    private void InitiateSpawnPoints()
+    private void initiateSpawnPoints()
     {
-        spawnPoints = new Vector3[4];
-        spawnPoints[0] = new Vector3(0f, 0f, startingZposition);
-        spawnPoints[1] = new Vector3(0f, 0f, startingZposition);
-        spawnPoints[2] = new Vector3(0f, 0f, startingZposition);
-        spawnPoints[3] = new Vector3(0f, 0f, startingZposition);
+        resetSpawnPointsArray();
+        resetSpawnPointCountArray();
 
+        lastSpawn = 0;
+    }
+
+    private void resetSpawnPointCountArray()
+    {
         spawnPointsCountArray = new int[spawnPoints.Length];
+
         for (int i = 0; i < spawnPointsCountArray.Length; i++)
         {
             spawnPointsCountArray[i] = 0;
         }
+    }
 
-        lastSpawn = 0;
+    private void resetSpawnPointsArray()
+    {
+        spawnPoints = new Vector3[4];
+        for (int i = 0; i < 4; i++)
+        {
+            spawnPoints[i] = new Vector3(0f, 0f, startingZposition);
+        }
     }
 
     private void InitiateBoats(int numberOfBoats, int wave)
@@ -70,23 +116,15 @@ public class SpawnManager : MonoBehaviour {
         for (int i = 0; i < numberOfBoats; i++)
         {
             GameObject newBoat = (GameObject)Instantiate(boat);
-            newBoat.GetComponent<BoatCannonBallCollider>().scoreManager = masterManager.scoreManager;
+            newBoat.GetComponent<BoatCannonBallCollider>().MasterManager = masterManager;
             newBoat.SetActive(false);
             newBoat.GetComponent<BoatMover>().masterManager = masterManager;
+
             boats[i] = newBoat;
         }
     }
 
-    private void Update()
-    {
-        if ((Time.time > lastSpawn && masterManager.IsGameRunning()))
-        {
-            lastSpawn = Time.time + spawnTime;
-            Spawn();
-        }
-    }
-
-    void Spawn()
+    private void spawn()
     {
         for(int i = 0; i < boats.Length; i++)
         {
@@ -151,41 +189,12 @@ public class SpawnManager : MonoBehaviour {
         return lastMinIndex;
     }
 
-    public void removeBoatFromList(int target)
-    {
-        spawnPointsCountArray[target]--;
-    }
-
-    public void addBoatToList(int target)
-    {
-        spawnPointsCountArray[target]++;
-    }
-
-    public void DisableAllActiveBoats()
-    {
-        foreach (GameObject boat in boats)
-        {
-            if (boat.activeInHierarchy)
-            {
-                boat.SetActive(false);
-            }
-        }
-
-    }
-
-    public void OnIslandDeath(int islandIndex)
-    {
-        spawnPointsCountArray[islandIndex] = int.MaxValue;
-
-        masterManager.IslandDown();
-    }
-
     private void activateBoat(int i,int location)
     {
         boats[i].GetComponent<BoatMover>().orignialTarget = location;
         boats[i].transform.position = spawnPoints[location];
         boats[i].transform.rotation = Quaternion.identity;
-        boats[i].GetComponent<BoatMover>().speed = spawnBoatSpeed;
+        boats[i].GetComponent<BoatMover>().movementSpeed = spawnBoatSpeed;
         initiateBoatHealth(boats[i]);
         boats[i].SetActive(true);
     }

@@ -223,14 +223,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ea656ba7cae2dd47bdba34eebcb956a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 0
-  target: 0
-  spawnManager: {fileID: 0}
+  masterManager: {fileID: 0}
+  orignialTarget: 0
+  isFlipping: 0
+  movementSpeed: 0
   rotationSpeed: 30
   flipAngle: 60
-  isFlipping: 0
   flipSpeed: 1
-  masterManager: {fileID: 0}
 --- !u!135 &135111690816322830
 SphereCollider:
   m_ObjectHideFlags: 1

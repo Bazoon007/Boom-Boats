@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class WaveManager : MonoBehaviour {
@@ -15,11 +13,6 @@ public class WaveManager : MonoBehaviour {
         ResetWaveManager();
     }
 
-    private void updateWaveText()
-    {
-        waveText.text = "Current Wave: " + currentWave;
-    }
-
     public void CheckIfNeedToIncreaseWave(int waveScore)
     {
         if (waveScore == waveLength + currentWave)
@@ -31,10 +24,23 @@ public class WaveManager : MonoBehaviour {
     public void IncreaseWave(bool didIslandDie)
     {
         currentWave++;
+        
         updateWaveText();
+        updateScoreManager(didIslandDie);
+        updateSpawnManager();
+    }
+
+    private void updateScoreManager(bool didIslandDie)
+    {
         masterManager.scoreManager.EndOfWave(didIslandDie);
+    }
+
+    private void updateSpawnManager()
+    {
         masterManager.spawnManager.DisableAllActiveBoats();
+
         masterManager.spawnManager.spawnTime *= 0.9f;
+
         if (masterManager.spawnManager.spawnBoatSpeed < 2.25f)
         {
             masterManager.spawnManager.spawnBoatSpeed *= 1.025f;
@@ -45,5 +51,10 @@ public class WaveManager : MonoBehaviour {
     {
         currentWave = 0;
         updateWaveText();
+    }
+
+    private void updateWaveText()
+    {
+        waveText.text = "Current Wave: " + currentWave;
     }
 }

@@ -193,10 +193,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 515572407da068b43a85904279e14caf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotationSpeed: 20
-  rotationLimit: 0.15
-  shootingPointTranform: {fileID: 4212985508162388}
-  location: 0
+  RotationSpeed: 0
+  RotationLimit: 0
+  CannonIndex: 0
+  MasterManager: {fileID: 0}
 --- !u!114 &114232891191708168
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -208,8 +208,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c596b7cafd475d5489db29d59301d9e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 10
-  tilt: 3
   cannonBall: {fileID: 1275719160547650, guid: ced186f48d7365646bd2809680e912ce, type: 2}
   shotSpawn: {fileID: 4212985508162388}
   fireRate: 0.5

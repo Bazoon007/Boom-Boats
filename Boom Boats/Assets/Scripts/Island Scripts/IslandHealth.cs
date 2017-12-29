@@ -1,39 +1,34 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class IslandHealth : MonoBehaviour {
 
-    private int health;
     public int initialHealth;
     public MasterManager masterManager;
     public GameObject OneHealthRemainingFlag;
     public GameObject TwoHealthRemainingFlag;
     public GameObject ThreeHealthRemainingFlag;
 
-    
+    private int islandHealth;
+
     private void Start()
     {
-        health = initialHealth;
-        OneHealthRemainingFlag.SetActive(true);
-        TwoHealthRemainingFlag.SetActive(true);
-        ThreeHealthRemainingFlag.SetActive(true);
+        islandHealth = initialHealth;
+        activateHealthFlags();
     }
 
     public void ReduceIslandHealth()
     {
-        //Debug.Log("Island was hit");
-        health--;
+        islandHealth--;
 
-        if (health == 2)
+        if (islandHealth == 2)
         {
             ThreeHealthRemainingFlag.SetActive(false);
         }
-        else if (health == 1)
+        else if (islandHealth == 1)
         {
             TwoHealthRemainingFlag.SetActive(false);
         }
-        else if (health == 0)
+        else if (islandHealth == 0)
         {
             islandDied();
         }
@@ -42,16 +37,16 @@ public class IslandHealth : MonoBehaviour {
 
     public void IncreaseIslandHealth()
     {
-        if (health < 3)
+        if (islandHealth < 3)
         {
-            health++;
+            islandHealth++;
         }
 
-        if (health == 2)
+        if (islandHealth == 2)
         {
             TwoHealthRemainingFlag.SetActive(true);
         }
-        else if (health == 3)
+        else if (islandHealth == 3)
         {
             ThreeHealthRemainingFlag.SetActive(true);
         }
@@ -61,16 +56,21 @@ public class IslandHealth : MonoBehaviour {
     {
         OneHealthRemainingFlag.SetActive(false);
         masterManager.waveManager.IncreaseWave(true);
-        masterManager.spawnManager.OnIslandDeath(gameObject.GetComponent<IslandCannonRelation>().cannon.location);
+        masterManager.spawnManager.OnIslandDeath(gameObject.GetComponent<IslandCannonRelation>().cannon.CannonIndex);
         gameObject.GetComponent<IslandCannonRelation>().cannon.gameObject.SetActive(false);
         gameObject.SetActive(false);
     }
 
     public void ResetIsland()
     {
-        health = initialHealth;
+        islandHealth = initialHealth;
+        activateHealthFlags();
         gameObject.GetComponent<IslandCannonRelation>().cannon.gameObject.SetActive(true);
         gameObject.SetActive(true);
+    }
+
+    private void activateHealthFlags()
+    {
         OneHealthRemainingFlag.SetActive(true);
         TwoHealthRemainingFlag.SetActive(true);
         ThreeHealthRemainingFlag.SetActive(true);

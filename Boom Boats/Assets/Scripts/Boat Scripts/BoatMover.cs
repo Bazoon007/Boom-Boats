@@ -1,29 +1,89 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class BoatMover : MonoBehaviour {
 
-    public float speed;
-    public int orignialTarget;
-    private int flipFlag;
-    private Rigidbody rb;
-    public float rotationSpeed;
-    private Transform targetTransform;
-    public float flipAngle;
-    public bool isFlipping;
-    public float flipSpeed;
     public MasterManager masterManager;
+    public int orignialTarget;
+    public bool isFlipping;
+    public float movementSpeed;
+    public float rotationSpeed;
+    public float flipAngle;
+    public float flipSpeed;
 
     private int nextTarget;
+    private Transform targetTransform;
+    private int flipFlag;
 
-    void OnEnable()
+    private void OnEnable()
     {
         initTransform();
         nextTarget = orignialTarget;
     }
 
-    void Update () {
+    private void Update ()
+    {
+        selectMovementType();
+
+        transform.GetChild(0).localRotation = flipIfNeeded(transform.GetChild(0).localRotation);
+    }
+
+    public void ChangeDirection(bool colidedBoat)
+    {
+        int targetIndex;
+
+        targetIndex = selectTargetIndex(colidedBoat);
+        selectNextTarget(targetIndex);
+
+        targetTransform = GameObject.Find("Cannon" + nextTarget).transform;
+        updateSpawnPointsOnChange(targetIndex);
+    }
+
+    public void BorderFlip()
+    {
+        StartCoroutine(rotateCoroutine());
+        flipFlag *= -1;
+    }
+
+    private void updateSpawnPointsOnChange(int target)
+    {
+        masterManager.spawnManager.RemoveBoatFromList(target);
+        masterManager.spawnManager.addBoatToList(nextTarget);
+    }
+
+    private void OnDisable()
+    {
+        masterManager.spawnManager.RemoveBoatFromList(nextTarget);
+    }
+
+    private void damagedMovement() 
+    {
+        Vector3 normallizedTarget = Vector3.Normalize(targetTransform.position - transform.position);
+        transform.forward = Vector3.RotateTowards(transform.forward, normallizedTarget, rotationSpeed * Time.deltaTime, movementSpeed);
+        GetComponent<Rigidbody>().velocity = transform.forward * movementSpeed;
+    }
+
+    private void sailingMovement()
+    {
+        if (isFlipping)
+        {
+            transform.Rotate(Vector3.right * (flipAngle * 2) * flipFlag * Time.deltaTime * flipSpeed * movementSpeed);
+        }
+
+        GetComponent<Rigidbody>().velocity = transform.forward * movementSpeed;
+    }
+
+    private void initTransform()
+    {
+        targetTransform = GameObject.Find("Cannon" + orignialTarget).transform;
+        transform.LookAt(targetTransform);
+        transform.Rotate(flipAngle * Vector3.right);
+        flipFlag = 1;
+        isFlipping = false;
+    }
+
+    private void selectMovementType()
+    {
         if (masterManager.IsGameRunning())
         {
             Time.timeScale = 1;
@@ -40,139 +100,123 @@ public class BoatMover : MonoBehaviour {
         {
             Time.timeScale = 0;
         }
-
-        if ((transform.rotation.x < 0 || transform.rotation.y < 0) && gameObject.tag != "BoatAfterHit")
-        {
-            if (orignialTarget == 0 || orignialTarget == 3)
-            {
-                transform.GetChild(0).localRotation = Quaternion.Euler(0f, -90f, -90f);
-            }
-        }
-        else
-        {
-            if (orignialTarget == 1 || orignialTarget == 2)
-            {
-                transform.GetChild(0).localRotation = Quaternion.Euler(0f, 90f, 90f);
-            }
-        }
-    
-        if ((transform.GetChild(0).localRotation.x > 0 || transform.GetChild(0).localRotation.y > 0) && gameObject.tag == "BoatAfterHit")
-        {
-            if (orignialTarget == 0 || orignialTarget == 3)
-            {
-                transform.GetChild(0).localRotation = Quaternion.Euler(0f, -90f, -90f);
-            }
-        }
-        else
-        {
-            if (orignialTarget == 1 || orignialTarget == 2)
-            {
-                transform.GetChild(0).localRotation = Quaternion.Euler(0f, 90f, 90f);
-            }
-
-           
-        }
-
-
-
-
-
     }
 
-    public void ChangeDirection(bool colidedBoat)
+    private Quaternion flipIfNeeded(Quaternion childLocalTransform)
     {
-        int t;
-        if (colidedBoat)
+        childLocalTransform = flipBeforeHit(childLocalTransform);
+        childLocalTransform = flipAfterHit(childLocalTransform);
+        return childLocalTransform;
+    }
+
+    private Quaternion flipAfterHit(Quaternion childLocalTransform)
+    {
+        if (needToFlipAfterHit())
         {
-            t = nextTarget;
+            if (orignialTarget == 0 || orignialTarget == 3)
+            {
+                childLocalTransform = Quaternion.Euler(0f, -90f, -90f);
+            }
         }
         else
         {
-            t = orignialTarget;
+            if (orignialTarget == 1 || orignialTarget == 2)
+            {
+                childLocalTransform = Quaternion.Euler(0f, 90f, 90f);
+            }
         }
+
+        return childLocalTransform;
+    }
+
+    private Quaternion flipBeforeHit(Quaternion childLocalTransform)
+    {
+        if (needToFlipBeforeHit())
+        {
+            if (orignialTarget == 0 || orignialTarget == 3)
+            {
+                childLocalTransform = Quaternion.Euler(0f, -90f, -90f);
+            }
+        }
+        else
+        {
+            if (orignialTarget == 1 || orignialTarget == 2)
+            {
+                childLocalTransform = Quaternion.Euler(0f, 90f, 90f);
+            }
+        }
+
+        return childLocalTransform;
+    }
+
+    private bool needToFlipAfterHit()
+    {
+        return (transform.GetChild(0).localRotation.x > 0 || transform.GetChild(0).localRotation.y > 0) && gameObject.tag == "BoatAfterHit";
+    }
+
+    private bool needToFlipBeforeHit()
+    {
+        return (transform.rotation.x < 0 || transform.rotation.y < 0) && gameObject.tag != "BoatAfterHit";
+    }
+
+    private void selectNextTarget(int targetIndex)
+    {
         if (Random.Range(-1, 1) < 0)
         {
-            nextTarget = t - 1;
+            selectNextTargetSmallerThanZero(targetIndex);
+        }
+        else
+        {
+            selectNextTargetLargerThanZero(targetIndex);
+        }
+    }
+
+    private void selectNextTargetLargerThanZero(int targetIndex)
+    {
+        nextTarget = (targetIndex + 1) % 4;
+        while (masterManager.spawnManager.spawnPointsCountArray[nextTarget] == int.MaxValue)
+        {
+            nextTarget = (nextTarget + 1) % 4;
+        }
+    }
+
+    private void selectNextTargetSmallerThanZero(int targetIndex)
+    {
+        nextTarget = targetIndex - 1;
+        if (nextTarget < 0)
+        {
+            nextTarget = 3;
+        }
+
+        while (masterManager.spawnManager.spawnPointsCountArray[nextTarget] == int.MaxValue)
+        {
+            nextTarget = nextTarget - 1;
             if (nextTarget < 0)
             {
                 nextTarget = 3;
             }
+        }
+    }
 
-            while (masterManager.spawnManager.spawnPointsCountArray[nextTarget] == int.MaxValue)
-            {
-                nextTarget = nextTarget - 1;
-                if (nextTarget < 0)
-                {
-                    nextTarget = 3;
-                }
-            }
+    private int selectTargetIndex(bool colidedBoat)
+    {
+        int targetIndex;
+        if (colidedBoat)
+        {
+            targetIndex = nextTarget;
         }
         else
         {
-            nextTarget = (t + 1) % 4;
-            while (masterManager.spawnManager.spawnPointsCountArray[nextTarget] == int.MaxValue)
-            {
-                nextTarget = (nextTarget + 1) % 4;
-            }
+            targetIndex = orignialTarget;
         }
-        targetTransform = GameObject.Find("Cannon" + nextTarget).transform;
-        updateSpawnPointsOnChange(t);
 
-    }
-
-    private void updateSpawnPointsOnChange(int t)
-    {
-        masterManager.spawnManager.removeBoatFromList(t);
-        masterManager.spawnManager.addBoatToList(nextTarget);
-    }
-
-    void OnDisable()
-    {
-        masterManager.spawnManager.removeBoatFromList(nextTarget);
-    }
-
-    private void damagedMovement() 
-    {
-        Vector3 normallizedTarget = Vector3.Normalize(targetTransform.position - transform.position);
-        transform.forward = Vector3.RotateTowards(transform.forward, normallizedTarget, rotationSpeed * Time.deltaTime, speed);
-        GetComponent<Rigidbody>().velocity = transform.forward * speed;
-    }
-
-    private void sailingMovement()
-    {
-        if (isFlipping)
-        {
-            transform.Rotate(Vector3.right * (flipAngle * 2) * flipFlag * Time.deltaTime * flipSpeed * speed);
-        }
-        GetComponent<Rigidbody>().velocity = transform.forward * speed;
-        
-
-
-    }
-
-    public void borderFlip()
-    {
-        StartCoroutine(rotateCoroutine());
-        flipFlag *= -1;
-    }
-
-    private void initTransform()
-    {
-        targetTransform = GameObject.Find("Cannon" + orignialTarget).transform;
-        transform.LookAt(targetTransform);
-        transform.Rotate(flipAngle * Vector3.right);
-        flipFlag = 1;
-        isFlipping = false;
+        return targetIndex;
     }
 
     IEnumerator rotateCoroutine()
     {
         isFlipping = true;
-        yield return new WaitForSeconds(1/(flipSpeed * speed));
+        yield return new WaitForSeconds(1 / (flipSpeed * movementSpeed));
         isFlipping = false;
     }
-
-  
-
-    
 }

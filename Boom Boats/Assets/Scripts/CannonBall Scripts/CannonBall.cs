@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class CannonBall : Mover {
+﻿public class CannonBall : Mover {
 
     public int cannonBallIndex;
 

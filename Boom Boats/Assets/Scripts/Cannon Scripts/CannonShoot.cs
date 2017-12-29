@@ -1,11 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class CannonShoot : MonoBehaviour {
-
-    public float speed;
-    public float tilt;
 
     public GameObject cannonBall;
     public Transform shotSpawn;
@@ -15,25 +10,27 @@ public class CannonShoot : MonoBehaviour {
 
     void OnTouchExit()
     {
-        Shoot();
+        shoot();
     }
-
 
     private void OnMouseDown()
     {
-        Shoot();
+        OnTouchExit();
     }
 
-
-    void Shoot()
+    private void shoot()
     {
         if (Time.time > nextFire)
         {
             nextFire = Time.time + fireRate;
-            GameObject go = Instantiate(cannonBall, shotSpawn.position, shotSpawn.rotation);
-
-            go.GetComponent<CannonBall>().cannonBallIndex = this.GetComponent<Cannon>().location;
+            instantiateCannonball();
         }
+    }
+
+    private void instantiateCannonball()
+    {
+        GameObject newCannonball = Instantiate(cannonBall, shotSpawn.position, shotSpawn.rotation);
+        newCannonball.GetComponent<CannonBall>().cannonBallIndex = GetComponent<Cannon>().CannonIndex;
     }
 }
 

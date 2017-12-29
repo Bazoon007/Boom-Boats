@@ -1,70 +1,73 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Cannon : MonoBehaviour {
-    public float rotationSpeed;
-    public float rotationLimit;
-    public Transform shootingPointTranform;
-    public int location;
-    public MasterManager masterManager;
+    public float RotationSpeed;
+    public float RotationLimit;
+    public int CannonIndex;
+    public MasterManager MasterManager;
+
     private float startingXRotation;
     private float startingYRotation;
 
-    // Use this for initialization
     void Start () {
         startingXRotation = transform.rotation.x;
         startingYRotation = transform.rotation.y;
 	}
 	
-	// Update is called once per frame
 	void Update () {
-        if (masterManager.IsGameRunning())
+        if (MasterManager.IsGameRunning())
         {
-            transform.Rotate(Vector3.up, rotationSpeed * Time.deltaTime);
+            transform.Rotate(Vector3.up, RotationSpeed * Time.deltaTime);
+            setRotationSpeed();
+        }
+    }
 
-            if (location == 0 || location == 2 || location == 3)
-            {
-                /*
-                if (location == 0)
-                {
-                    Debug.Log("Start " + startingXRotation + " current x " + transform.rotation.x + " currentY " + transform.rotation.y);
-                }*/
-                if (rotationSpeed > 0)
-                {
-                    if (transform.rotation.x > startingXRotation + rotationLimit)
-                    {
-                        rotationSpeed *= -1;
-                    }
-                }
-                else
-                {
-                    if (transform.rotation.x < startingXRotation - rotationLimit)
-                    {
-                        rotationSpeed *= -1;
-                    }
-                }
-            }
-            else if (location == 1)
-            {
-                if (rotationSpeed > 0)
-                {
-                    if (transform.rotation.y < startingYRotation - rotationLimit)
-                    {
-                        rotationSpeed *= -1;
-                    }
-                }
-                else
-                {
-                    if (transform.rotation.y > startingYRotation + rotationLimit)
-                    {
-                        rotationSpeed *= -1;
-                    }
-                }
-                //Debug.Log(transform.rotation.y);
-            }
+    private void setRotationSpeed()
+    {
+        if (CannonIndex == 1)
+        {
+            flipRotationSpeedBasedOnY();
+        }
+        else
+        {
+            flipRotationSpeedBasedOnX();
+        }
 
-            //Debug.Log(startingXRotation /*+ " " + transform.rotation.x*/ + " " + location);
+    }
+
+    private void flipRotationSpeedBasedOnX()
+    {
+        if (RotationSpeed > 0)
+        {
+            if (transform.rotation.x > startingXRotation + RotationLimit)
+            {
+                RotationSpeed *= -1;
+            }
+        }
+        else
+        {
+            if (transform.rotation.x < startingXRotation - RotationLimit)
+            {
+                RotationSpeed *= -1;
+            }
+        }
+    }
+
+    private void flipRotationSpeedBasedOnY()
+    {
+        if (RotationSpeed > 0)
+        {
+            if (transform.rotation.y < startingYRotation - RotationLimit)
+            {
+                RotationSpeed *= -1;
+            }
+        }
+        else
+        {
+            if (transform.rotation.y > startingYRotation + RotationLimit)
+            {
+                RotationSpeed *= -1;
+            }
         }
     }
 }
