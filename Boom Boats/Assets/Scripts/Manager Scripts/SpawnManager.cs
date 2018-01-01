@@ -15,9 +15,11 @@ public class SpawnManager : MonoBehaviour {
     private byte minCount;
     private float lastSpawn;
     private int min;
+    private float initialTime;
 
     void Start ()
     {
+        initialTime = spawnTime;
         ResetSpawnManager();
     }
 
@@ -81,6 +83,7 @@ public class SpawnManager : MonoBehaviour {
         DisableAllActiveBoats();
         InitiateBoats(maxBoats, masterManager.waveManager.currentWave);
         initiateSpawnPoints();
+        spawnTime = initialTime;
     }
 
     private void initiateSpawnPoints()

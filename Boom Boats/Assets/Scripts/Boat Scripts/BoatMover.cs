@@ -1,7 +1,8 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public class BoatMover : MonoBehaviour {
+public class BoatMover : MonoBehaviour
+{
 
     public MasterManager masterManager;
     public int orignialTarget;
@@ -11,7 +12,7 @@ public class BoatMover : MonoBehaviour {
     public float flipAngle;
     public float flipSpeed;
 
-    private int nextTarget;
+    public int nextTarget;
     private Transform targetTransform;
     private int flipFlag;
 
@@ -21,7 +22,7 @@ public class BoatMover : MonoBehaviour {
         nextTarget = orignialTarget;
     }
 
-    private void Update ()
+    private void Update()
     {
         selectMovementType();
 
@@ -56,7 +57,7 @@ public class BoatMover : MonoBehaviour {
         masterManager.spawnManager.RemoveBoatFromList(nextTarget);
     }
 
-    private void damagedMovement() 
+    private void damagedMovement()
     {
         Vector3 normallizedTarget = Vector3.Normalize(targetTransform.position - transform.position);
         transform.forward = Vector3.RotateTowards(transform.forward, normallizedTarget, rotationSpeed * Time.deltaTime, movementSpeed);
@@ -104,25 +105,32 @@ public class BoatMover : MonoBehaviour {
 
     private Quaternion flipIfNeeded(Quaternion childLocalTransform)
     {
-        childLocalTransform = flipBeforeHit(childLocalTransform);
-        childLocalTransform = flipAfterHit(childLocalTransform);
+        if (tag == "BoatAfterHit")
+        {
+            childLocalTransform = flipAfterHit(childLocalTransform);
+        }
+        else
+        {
+            childLocalTransform = flipBeforeHit(childLocalTransform);
+        }
         return childLocalTransform;
     }
 
-    private Quaternion flipAfterHit(Quaternion childLocalTransform)
+    public Quaternion flipAfterHit(Quaternion childLocalTransform)
     {
-        if (needToFlipAfterHit())
+
+        if (orignialTarget == 0 || orignialTarget == 3)
         {
-            if (orignialTarget == 0 || orignialTarget == 3)
+            if (nextTarget == 1 || nextTarget == 2)
             {
-                childLocalTransform = Quaternion.Euler(0f, -90f, -90f);
+                childLocalTransform = Quaternion.Euler(0f, 90f, 90f);
             }
         }
         else
         {
-            if (orignialTarget == 1 || orignialTarget == 2)
+            if (nextTarget == 0 || nextTarget == 3)
             {
-                childLocalTransform = Quaternion.Euler(0f, 90f, 90f);
+                childLocalTransform = Quaternion.Euler(0f, -90f, -90f);
             }
         }
 

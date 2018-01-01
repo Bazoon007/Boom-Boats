@@ -23,6 +23,7 @@ public class BoatCannonBallCollider : MonoBehaviour {
     private void triggerIfBoatsAfterHit()
     {
         GetComponent<BoatMover>().ChangeDirection(true);
+        GetComponent<BoatMover>().flipAfterHit(transform.GetChild(0).localRotation);
     }
 
     private void triggerIfCcanonball(Collider other)
