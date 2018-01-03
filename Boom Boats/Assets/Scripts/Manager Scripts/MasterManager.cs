@@ -55,7 +55,6 @@ public class MasterManager : MonoBehaviour {
         resetIslandsAndCannons();
         resetMasterManager(true);
         endGamePanel.gameObject.SetActive(false);
-        
     }
 
     public void ResumeGame()
@@ -76,13 +75,38 @@ public class MasterManager : MonoBehaviour {
     {
         int waveNumber = waveManager.currentWave;
 
+        string winnerColor = string.Empty;
+
+        switch (winner)
+        {
+            case 0:
+                winnerColor = "Blue";
+                break;
+
+            case 1:
+                winnerColor = "Black";
+                break;
+
+            case 2:
+                winnerColor = "Green";
+                break;
+
+            case 3:
+                winnerColor = "Red";
+                break;
+
+            default:
+                break;
+        }
+
         finalWaveText.text = "The game has ended after " + waveNumber + " waves";
-        winningText.text = "Winner is Player " + winner;
+        winningText.text = winnerColor + " Player Won!";
 
         waveManager.waveText.text = string.Empty;
         gameIsRunning = false;
         disableAllIslands();
         endGamePanel.gameObject.SetActive(true);
+
     }
 
     private void disableAllIslands()
@@ -91,6 +115,11 @@ public class MasterManager : MonoBehaviour {
         Island1.gameObject.SetActive(false);
         Island2.gameObject.SetActive(false);
         Island3.gameObject.SetActive(false);
+
+        Island0.GetComponent<IslandCannonRelation>().cannon.gameObject.SetActive(false);
+        Island1.GetComponent<IslandCannonRelation>().cannon.gameObject.SetActive(false);
+        Island2.GetComponent<IslandCannonRelation>().cannon.gameObject.SetActive(false);
+        Island3.GetComponent<IslandCannonRelation>().cannon.gameObject.SetActive(false);
     }
 
     private void resetIslandsAndCannons()
