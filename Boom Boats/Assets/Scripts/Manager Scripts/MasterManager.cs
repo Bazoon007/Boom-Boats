@@ -6,6 +6,7 @@ public class MasterManager : MonoBehaviour {
     public WaveManager waveManager;
     public ScoreManager scoreManager;
     public SpawnManager spawnManager;
+    public SoundManager soundManager;
     public IslandHealth Island0;
     public IslandHealth Island1;
     public IslandHealth Island2;
@@ -14,6 +15,7 @@ public class MasterManager : MonoBehaviour {
     public GameObject pauseGamePanel;
     public Text winningText;
     public Text finalWaveText;
+    
 
     private int numberOfActiveIslands;
     private bool gameIsRunning;
