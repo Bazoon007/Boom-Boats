@@ -7,6 +7,7 @@ public class MasterManager : MonoBehaviour {
     public ScoreManager scoreManager;
     public SpawnManager spawnManager;
     public SoundManager soundManager;
+    public GameObject backgroundMusic;
     public IslandHealth Island0;
     public IslandHealth Island1;
     public IslandHealth Island2;
@@ -41,6 +42,8 @@ public class MasterManager : MonoBehaviour {
     public void StartGame()
     {
         gameIsRunning = true;
+        soundManager.PlayThreeTwoOne();
+        backgroundMusic.GetComponent<AudioSource>().PlayDelayed(3f);
     }
 
     public void IslandDown()
@@ -104,11 +107,21 @@ public class MasterManager : MonoBehaviour {
         finalWaveText.text = "The game has ended after " + waveNumber + " waves";
         winningText.text = winnerColor + " Player Won!";
 
+        soundManager.PlayGameEnd();
         waveManager.waveText.text = string.Empty;
         gameIsRunning = false;
         disableAllIslands();
         endGamePanel.gameObject.SetActive(true);
+        
 
+    }
+
+    private void disableHealthFlags()
+    {
+        Island0.endGame();
+        Island1.endGame();
+        Island2.endGame();
+        Island3.endGame();
     }
 
     private void disableAllIslands()
@@ -122,6 +135,8 @@ public class MasterManager : MonoBehaviour {
         Island1.GetComponent<IslandCannonRelation>().cannon.gameObject.SetActive(false);
         Island2.GetComponent<IslandCannonRelation>().cannon.gameObject.SetActive(false);
         Island3.GetComponent<IslandCannonRelation>().cannon.gameObject.SetActive(false);
+
+        disableHealthFlags();
     }
 
     private void resetIslandsAndCannons()
@@ -146,4 +161,5 @@ public class MasterManager : MonoBehaviour {
             pauseGamePanel.gameObject.SetActive(true);
         }
     }
+
 }

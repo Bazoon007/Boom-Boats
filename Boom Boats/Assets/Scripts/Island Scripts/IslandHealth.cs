@@ -20,6 +20,17 @@ public class IslandHealth : MonoBehaviour {
     {
         islandHealth--;
 
+        int islandIndex = GetComponent<IslandCannonRelation>().cannon.CannonIndex;
+
+        if (islandHealth > 0)
+        {
+            masterManager.soundManager.PlayIslandHitButNotDeadSound(islandIndex);
+        }
+        else
+        {
+            masterManager.soundManager.PlayIslandDeadSound(islandIndex);
+        }
+
         if (islandHealth == 2)
         {
             ThreeHealthRemainingFlag.SetActive(false);
@@ -32,6 +43,7 @@ public class IslandHealth : MonoBehaviour {
         {
             islandDied();
         }
+
         
     }
 
@@ -50,6 +62,13 @@ public class IslandHealth : MonoBehaviour {
         {
             ThreeHealthRemainingFlag.SetActive(true);
         }
+    }
+
+    public void endGame()
+    {
+        OneHealthRemainingFlag.gameObject.SetActive(false);
+        TwoHealthRemainingFlag.gameObject.SetActive(false);
+        ThreeHealthRemainingFlag.gameObject.SetActive(false);
     }
 
     private void islandDied()
@@ -75,4 +94,5 @@ public class IslandHealth : MonoBehaviour {
         TwoHealthRemainingFlag.SetActive(true);
         ThreeHealthRemainingFlag.SetActive(true);
     }
+
 }

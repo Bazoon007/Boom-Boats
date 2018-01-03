@@ -5,6 +5,7 @@ using UnityEngine;
 public class SoundManager : MonoBehaviour {
 
     public MasterManager masterManager;
+    public AudioSource audioSource;
     public AudioClip ThreeTwoOneSound;
     public AudioClip GameEndedSound;
     public AudioClip Cannon0Shoot;
@@ -20,16 +21,15 @@ public class SoundManager : MonoBehaviour {
     public AudioClip Island3Hit;
     public AudioClip Island3Dead;
 
-    public AudioSource audioSource;
-
     private void Start()
     {
+        AudioListener.pause = false;
         audioSource = GetComponent<AudioSource>();
         audioSource.playOnAwake = false;
         audioSource.loop = false;
     }
 
-    public void CannonShootSound(int cannonIndex)
+    public void PlayCannonShootSound(int cannonIndex)
     {
         switch (cannonIndex)
         {

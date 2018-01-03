@@ -12,7 +12,7 @@ public class BoatCannonBallCollider : MonoBehaviour {
         }
         else if (other.tag == "Cannonball")
         {
-            triggerIfCcanonball(other);
+            triggerIfCanonball(other);
         }
         else if (other.tag == "BoatAfterHit" && gameObject.tag == "BoatAfterHit")
         {
@@ -26,7 +26,7 @@ public class BoatCannonBallCollider : MonoBehaviour {
         GetComponent<BoatMover>().flipAfterHit(transform.GetChild(0).localRotation);
     }
 
-    private void triggerIfCcanonball(Collider other)
+    private void triggerIfCanonball(Collider other)
     {
         int target = gameObject.GetComponent<BoatMover>().orignialTarget;
         bool isBoatFlipping = gameObject.GetComponent<BoatMover>().isFlipping;
