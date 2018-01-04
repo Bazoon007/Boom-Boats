@@ -7,6 +7,8 @@ public class IslandHealth : MonoBehaviour {
     public GameObject OneHealthRemainingFlag;
     public GameObject TwoHealthRemainingFlag;
     public GameObject ThreeHealthRemainingFlag;
+    public GameObject Rock;
+    public GameObject PalmTree;
 
     private int islandHealth;
 
@@ -69,11 +71,15 @@ public class IslandHealth : MonoBehaviour {
         OneHealthRemainingFlag.gameObject.SetActive(false);
         TwoHealthRemainingFlag.gameObject.SetActive(false);
         ThreeHealthRemainingFlag.gameObject.SetActive(false);
+        Rock.gameObject.SetActive(false);
+        PalmTree.gameObject.SetActive(false);
     }
 
     private void islandDied()
     {
         OneHealthRemainingFlag.SetActive(false);
+        Rock.gameObject.SetActive(false);
+        PalmTree.gameObject.SetActive(false);
         masterManager.waveManager.IncreaseWave(true);
         masterManager.spawnManager.OnIslandDeath(gameObject.GetComponent<IslandCannonRelation>().cannon.CannonIndex);
         gameObject.GetComponent<IslandCannonRelation>().cannon.gameObject.SetActive(false);
@@ -85,6 +91,8 @@ public class IslandHealth : MonoBehaviour {
         islandHealth = initialHealth;
         activateHealthFlags();
         gameObject.GetComponent<IslandCannonRelation>().cannon.gameObject.SetActive(true);
+        Rock.gameObject.SetActive(true);
+        PalmTree.gameObject.SetActive(true);
         gameObject.SetActive(true);
     }
 

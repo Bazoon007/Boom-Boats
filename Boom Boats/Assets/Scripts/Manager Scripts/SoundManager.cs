@@ -20,6 +20,16 @@ public class SoundManager : MonoBehaviour {
     public AudioClip Cannon3Shoot;
     public AudioClip Island3Hit;
     public AudioClip Island3Dead;
+    public AudioClip BoatDead;
+    public AudioClip Boat0Hit;
+    public AudioClip Boat1Hit;
+    public AudioClip Boat2Hit;
+    public AudioClip Boat3Hit;
+    public AudioClip Island0Wins;
+    public AudioClip Island1Wins;
+    public AudioClip Island2Wins;
+    public AudioClip Island3Wins;
+
 
     private void Start()
     {
@@ -98,15 +108,69 @@ public class SoundManager : MonoBehaviour {
         playSound();
     }
 
-    public void PlayThreeTwoOne()
+    public void PlayThreeTwoOneSound()
     {
         audioSource.clip = ThreeTwoOneSound;
         playSound();
     }
 
-    public void PlayGameEnd()
+    public void PlayGameEndSound(int islandIndex)
     {
-        audioSource.clip = GameEndedSound;
+        switch (islandIndex)
+        {
+            case 0:
+                audioSource.clip = Island0Wins;
+                break;
+
+            case 1:
+                audioSource.clip = Island1Wins;
+                break;
+
+            case 2:
+                audioSource.clip = Island2Wins;
+                break;
+
+            case 3:
+                audioSource.clip = Island3Wins;
+                break;
+
+            default:
+                break;
+        }
+
+        playSound();
+    }
+    
+    public void PlayBoatDeadSound()
+    {
+        audioSource.clip = BoatDead;
+        playSound();
+    }
+
+    public void PlayBoatHitSound(int islandIndex)
+    {
+        switch (islandIndex)
+        {
+            case 0:
+                audioSource.clip = Boat0Hit;
+                break;
+
+            case 1:
+                audioSource.clip = Boat1Hit;
+                break;
+
+            case 2:
+                audioSource.clip = Boat2Hit;
+                break;
+
+            case 3:
+                audioSource.clip = Boat3Hit;
+                break;
+
+            default:
+                break;
+        }
+
         playSound();
     }
 
@@ -117,4 +181,6 @@ public class SoundManager : MonoBehaviour {
             audioSource.Play();
         }
     }
+    
+
 }

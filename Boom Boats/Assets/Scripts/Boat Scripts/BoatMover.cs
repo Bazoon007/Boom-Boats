@@ -54,6 +54,7 @@ public class BoatMover : MonoBehaviour
 
     private void OnDisable()
     {
+        transform.GetChild(1).gameObject.SetActive(false);
         masterManager.spawnManager.RemoveBoatFromList(nextTarget);
     }
 

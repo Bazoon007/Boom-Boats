@@ -38,11 +38,13 @@ public class BoatCannonBallCollider : MonoBehaviour {
             if (boatIsDead())
             {
                 MasterManager.scoreManager.UpdateScore(other.GetComponent<CannonBall>().cannonBallIndex);
+                MasterManager.soundManager.PlayBoatDeadSound();
                 deactivate();
             }
             else
             {
                 changeBoatDirection();
+                MasterManager.soundManager.PlayBoatHitSound(target);
             }
         }
 

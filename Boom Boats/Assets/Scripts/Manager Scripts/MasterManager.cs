@@ -42,7 +42,7 @@ public class MasterManager : MonoBehaviour {
     public void StartGame()
     {
         gameIsRunning = true;
-        soundManager.PlayThreeTwoOne();
+        soundManager.PlayThreeTwoOneSound();
         backgroundMusic.GetComponent<AudioSource>().PlayDelayed(3f);
     }
 
@@ -107,7 +107,7 @@ public class MasterManager : MonoBehaviour {
         finalWaveText.text = "The game has ended after " + waveNumber + " waves";
         winningText.text = winnerColor + " Player Won!";
 
-        soundManager.PlayGameEnd();
+        soundManager.PlayGameEndSound(winner);
         waveManager.waveText.text = string.Empty;
         gameIsRunning = false;
         disableAllIslands();

@@ -200,6 +200,7 @@ public class SpawnManager : MonoBehaviour {
         boats[i].GetComponent<BoatMover>().movementSpeed = spawnBoatSpeed;
         initiateBoatHealth(boats[i]);
         boats[i].SetActive(true);
+        boats[i].transform.GetChild(1).gameObject.SetActive(true);
     }
     
 }
