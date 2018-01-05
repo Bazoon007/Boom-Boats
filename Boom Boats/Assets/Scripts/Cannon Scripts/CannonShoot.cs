@@ -26,6 +26,7 @@ public class CannonShoot : MonoBehaviour {
             nextFire = Time.time + fireRate;
             instantiateCannonball();
             playSound();
+            transform.GetChild(1).gameObject.GetComponent<CannonScaleAnimation>().ActivateScaleAnimation();
         }
     }
 
