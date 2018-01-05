@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class MasterManager : MonoBehaviour {
@@ -13,6 +14,10 @@ public class MasterManager : MonoBehaviour {
     public IslandHealth Island2;
     public IslandHealth Island3;
     public GameObject endGamePanel;
+    public MuteButton muteButtonStart;
+    public MuteButton muteButtonPause;
+    public MuteButton muteButtonEnd;
+
     public GameObject pauseGamePanel;
     public Text winningText;
     public Text finalWaveText;
@@ -65,6 +70,13 @@ public class MasterManager : MonoBehaviour {
     public void ResumeGame()
     {
         gameIsRunning = true;
+    }
+
+    public void changeAllMuteButtons(bool isPaused)
+    {
+        muteButtonEnd.ChangeMuteButtonImage(isPaused);
+        muteButtonStart.ChangeMuteButtonImage(isPaused);
+        muteButtonPause.ChangeMuteButtonImage(isPaused);
     }
 
     private void checkIfGameEnded()
