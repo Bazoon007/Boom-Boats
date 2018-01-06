@@ -17,7 +17,7 @@ public class MasterManager : MonoBehaviour {
     public MuteButton muteButtonStart;
     public MuteButton muteButtonPause;
     public MuteButton muteButtonEnd;
-
+    public GameObject winPopUps;
     public GameObject pauseGamePanel;
     public Text winningText;
     public Text finalWaveText;
@@ -65,6 +65,7 @@ public class MasterManager : MonoBehaviour {
         resetIslandsAndCannons();
         resetMasterManager(true);
         endGamePanel.gameObject.SetActive(false);
+        SetActiveAllChildren(winPopUps.transform, false);
     }
 
     public void ResumeGame()
@@ -90,6 +91,7 @@ public class MasterManager : MonoBehaviour {
 
     private void endGame(int winner)
     {
+        /*
         int waveNumber = waveManager.currentWave;
 
         string winnerColor = string.Empty;
@@ -115,10 +117,11 @@ public class MasterManager : MonoBehaviour {
             default:
                 break;
         }
-
         finalWaveText.text = "The game has ended after " + waveNumber + " waves";
         winningText.text = winnerColor + " Player Won!";
+        */
 
+        activateWinPopUp(winner);
         soundManager.PlayGameEndSound(winner);
         waveManager.waveText.text = string.Empty;
         gameIsRunning = false;
@@ -174,4 +177,18 @@ public class MasterManager : MonoBehaviour {
         }
     }
 
+    private void activateWinPopUp(int winnter)
+    {
+        winPopUps.gameObject.SetActive(true);
+        winPopUps.transform.GetChild(/*winner*/3).gameObject.SetActive(true);
+    }
+
+    private void SetActiveAllChildren(Transform transform, bool value)
+    {
+        foreach (Transform child in transform)
+        {
+            child.gameObject.SetActive(value);
+            SetActiveAllChildren(child, value);
+        }
+    }
 }
