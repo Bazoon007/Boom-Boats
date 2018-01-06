@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class MasterManager : MonoBehaviour {
@@ -30,6 +29,7 @@ public class MasterManager : MonoBehaviour {
 
     private void Start()
     {
+        motherShip.SetActive(false);
         resetMasterManager(false);
         timeScaleFlag = false;
     }
@@ -78,6 +78,7 @@ public class MasterManager : MonoBehaviour {
         timeScaleFlag = true;
         waveManager.updateWaveText();
         soundManager.PlayThreeTwoOneSound();
+        motherShip.SetActive(true);
         backgroundMusic.GetComponent<AudioSource>().PlayDelayed(3f);
     }
 
@@ -102,6 +103,8 @@ public class MasterManager : MonoBehaviour {
 
     public void ResumeGame()
     {
+        waveManager.waveText.gameObject.SetActive(true);
+        motherShip.SetActive(true);
         gameIsRunning = true;
     }
 
@@ -133,13 +136,6 @@ public class MasterManager : MonoBehaviour {
         motherShip.SetActive(false);
     }
 
-    private void disableHealthFlags()
-    {
-        Island0.endGame();
-        Island1.endGame();
-        Island2.endGame();
-        Island3.endGame();
-    }
 
     private void disableAllIslands()
     {
@@ -147,13 +143,6 @@ public class MasterManager : MonoBehaviour {
         Island1.gameObject.SetActive(false);
         Island2.gameObject.SetActive(false);
         Island3.gameObject.SetActive(false);
-
-        Island0.GetComponent<IslandCannonRelation>().cannon.gameObject.SetActive(false);
-        Island1.GetComponent<IslandCannonRelation>().cannon.gameObject.SetActive(false);
-        Island2.GetComponent<IslandCannonRelation>().cannon.gameObject.SetActive(false);
-        Island3.GetComponent<IslandCannonRelation>().cannon.gameObject.SetActive(false);
-
-        disableHealthFlags();
     }
 
     private void resetIslandsAndCannons()
@@ -175,6 +164,8 @@ public class MasterManager : MonoBehaviour {
         if (gameIsRunning)
         {
             gameIsRunning = false;
+            waveManager.waveText.gameObject.SetActive(false);
+            motherShip.SetActive(false);
             pauseGamePanel.gameObject.SetActive(true);
         }
     }

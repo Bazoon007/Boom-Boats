@@ -4,18 +4,16 @@ public class IslandHealth : MonoBehaviour {
 
     public int initialHealth;
     public MasterManager masterManager;
-    public GameObject OneHealthRemainingFlag;
-    public GameObject TwoHealthRemainingFlag;
-    public GameObject ThreeHealthRemainingFlag;
     public GameObject Rock;
     public GameObject PalmTree;
+    public GameObject background;
 
     private int islandHealth;
 
     private void Start()
     {
         islandHealth = initialHealth;
-        activateHealthFlags();
+        background.GetComponent<IslandBackground>().ChangeSprite(islandHealth);
     }
 
     public void ReduceIslandHealth()
@@ -31,20 +29,11 @@ public class IslandHealth : MonoBehaviour {
         else
         {
             masterManager.soundManager.PlayIslandDeadSound(islandIndex);
-        }
-
-        if (islandHealth == 2)
-        {
-            ThreeHealthRemainingFlag.SetActive(false);
-        }
-        else if (islandHealth == 1)
-        {
-            TwoHealthRemainingFlag.SetActive(false);
-        }
-        else if (islandHealth == 0)
-        {
             islandDied();
         }
+
+        background.GetComponent<IslandBackground>().ChangeSprite(islandHealth);
+
 
         
     }
@@ -54,30 +43,19 @@ public class IslandHealth : MonoBehaviour {
         if (islandHealth < 3)
         {
             islandHealth++;
+            background.GetComponent<IslandBackground>().ChangeSprite(islandHealth);
         }
 
-        if (islandHealth == 2)
-        {
-            TwoHealthRemainingFlag.SetActive(true);
-        }
-        else if (islandHealth == 3)
-        {
-            ThreeHealthRemainingFlag.SetActive(true);
-        }
     }
 
     public void endGame()
     {
-        OneHealthRemainingFlag.gameObject.SetActive(false);
-        TwoHealthRemainingFlag.gameObject.SetActive(false);
-        ThreeHealthRemainingFlag.gameObject.SetActive(false);
         Rock.gameObject.SetActive(false);
         PalmTree.gameObject.SetActive(false);
     }
 
     private void islandDied()
     {
-        OneHealthRemainingFlag.SetActive(false);
         Rock.gameObject.SetActive(false);
         PalmTree.gameObject.SetActive(false);
         masterManager.waveManager.IncreaseWave(true);
@@ -89,18 +67,12 @@ public class IslandHealth : MonoBehaviour {
     public void ResetIsland()
     {
         islandHealth = initialHealth;
-        activateHealthFlags();
         gameObject.GetComponent<IslandCannonRelation>().cannon.gameObject.SetActive(true);
         Rock.gameObject.SetActive(true);
         PalmTree.gameObject.SetActive(true);
+        background.GetComponent<IslandBackground>().ChangeSprite(islandHealth);
         gameObject.SetActive(true);
     }
 
-    private void activateHealthFlags()
-    {
-        OneHealthRemainingFlag.SetActive(true);
-        TwoHealthRemainingFlag.SetActive(true);
-        ThreeHealthRemainingFlag.SetActive(true);
-    }
 
 }
