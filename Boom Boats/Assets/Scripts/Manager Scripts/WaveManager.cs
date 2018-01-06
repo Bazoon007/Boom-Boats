@@ -11,6 +11,7 @@ public class WaveManager : MonoBehaviour {
     private void Start()
     {
         ResetWaveManager();
+        waveText.text = string.Empty;
     }
 
     public void CheckIfNeedToIncreaseWave(int waveScore)
@@ -53,8 +54,8 @@ public class WaveManager : MonoBehaviour {
         updateWaveText();
     }
 
-    private void updateWaveText()
+    public void updateWaveText()
     {
-        waveText.text = "Current Wave: " + currentWave;
+        waveText.text = "Wave : " + (currentWave + 1);
     }
 }

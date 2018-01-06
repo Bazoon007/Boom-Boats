@@ -19,25 +19,31 @@ public class MasterManager : MonoBehaviour {
     public MuteButton muteButtonEnd;
     public GameObject winPopUps;
     public GameObject pauseGamePanel;
+    public GameObject motherShip;
     public Text winningText;
     public Text finalWaveText;
     
 
     private int numberOfActiveIslands;
     private bool gameIsRunning;
+    private bool timeScaleFlag;
 
     private void Start()
     {
         resetMasterManager(false);
+        timeScaleFlag = false;
     }
 
     private void Update()
     {
+        if (timeScaleFlag)
+        {
+            setTimeScale();
+        }
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             pauseGame();
         }
-
         shootCannonFromKeyboard();
     }
 
@@ -69,6 +75,8 @@ public class MasterManager : MonoBehaviour {
     public void StartGame()
     {
         gameIsRunning = true;
+        timeScaleFlag = true;
+        waveManager.updateWaveText();
         soundManager.PlayThreeTwoOneSound();
         backgroundMusic.GetComponent<AudioSource>().PlayDelayed(3f);
     }
@@ -88,6 +96,8 @@ public class MasterManager : MonoBehaviour {
         resetMasterManager(true);
         endGamePanel.gameObject.SetActive(false);
         SetActiveAllChildren(winPopUps.transform, false);
+        timeScaleFlag = true;
+        motherShip.SetActive(true);
     }
 
     public void ResumeGame()
@@ -113,44 +123,14 @@ public class MasterManager : MonoBehaviour {
 
     private void endGame(int winner)
     {
-        /*
-        int waveNumber = waveManager.currentWave;
-
-        string winnerColor = string.Empty;
-
-        switch (winner)
-        {
-            case 0:
-                winnerColor = "Blue";
-                break;
-
-            case 1:
-                winnerColor = "Black";
-                break;
-
-            case 2:
-                winnerColor = "Green";
-                break;
-
-            case 3:
-                winnerColor = "Red";
-                break;
-
-            default:
-                break;
-        }
-        finalWaveText.text = "The game has ended after " + waveNumber + " waves";
-        winningText.text = winnerColor + " Player Won!";
-        */
-
+        timeScaleFlag = false;
+        endGamePanel.gameObject.SetActive(true);
         activateWinPopUp(winner);
         soundManager.PlayGameEndSound(winner);
         waveManager.waveText.text = string.Empty;
         gameIsRunning = false;
         disableAllIslands();
-        endGamePanel.gameObject.SetActive(true);
-        
-
+        motherShip.SetActive(false);
     }
 
     private void disableHealthFlags()
@@ -187,7 +167,7 @@ public class MasterManager : MonoBehaviour {
     private void resetMasterManager(bool isGameRunning)
     {
         numberOfActiveIslands = 4;
-        gameIsRunning = isGameRunning; 
+        gameIsRunning = isGameRunning;
     }
 
     private void pauseGame()
@@ -199,10 +179,10 @@ public class MasterManager : MonoBehaviour {
         }
     }
 
-    private void activateWinPopUp(int winnter)
+    private void activateWinPopUp(int winner)
     {
         winPopUps.gameObject.SetActive(true);
-        winPopUps.transform.GetChild(/*winner*/3).gameObject.SetActive(true);
+        winPopUps.transform.GetChild(winner).gameObject.SetActive(true);
     }
 
     private void SetActiveAllChildren(Transform transform, bool value)
@@ -211,6 +191,17 @@ public class MasterManager : MonoBehaviour {
         {
             child.gameObject.SetActive(value);
             SetActiveAllChildren(child, value);
+        }
+    }
+
+    private void setTimeScale()
+    {
+        if (IsGameRunning()) {
+            Time.timeScale = 1;
+        }
+        else
+        {
+            Time.timeScale = 0;
         }
     }
 }

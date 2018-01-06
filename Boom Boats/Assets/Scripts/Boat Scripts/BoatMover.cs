@@ -88,7 +88,6 @@ public class BoatMover : MonoBehaviour
     {
         if (masterManager.IsGameRunning())
         {
-            Time.timeScale = 1;
             if (gameObject.tag == "BoatAfterHit")
             {
                 damagedMovement();
@@ -97,10 +96,6 @@ public class BoatMover : MonoBehaviour
             {
                 sailingMovement();
             }
-        }
-        else
-        {
-            Time.timeScale = 0;
         }
     }
 
