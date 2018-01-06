@@ -19,7 +19,7 @@ public class CannonShoot : MonoBehaviour {
         OnTouchExit();
     }
 
-    private void shoot()
+    public void shoot()
     {
         if (Time.time > nextFire && GetComponent<Cannon>().MasterManager.IsGameRunning())
         {

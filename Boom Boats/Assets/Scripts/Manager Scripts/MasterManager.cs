@@ -37,6 +37,28 @@ public class MasterManager : MonoBehaviour {
         {
             pauseGame();
         }
+
+        shootCannonFromKeyboard();
+    }
+
+    private void shootCannonFromKeyboard()
+    {
+        if (Input.GetKeyDown(KeyCode.Z))
+        {
+            Island0.GetComponentInChildren<IslandCannonRelation>().cannon.GetComponent<CannonShoot>().shoot();
+        }
+        else if (Input.GetKeyDown(KeyCode.C))
+        {
+            Island1.GetComponentInChildren<IslandCannonRelation>().cannon.GetComponent<CannonShoot>().shoot();
+        }
+        else if (Input.GetKeyDown(KeyCode.E))
+        {
+            Island2.GetComponentInChildren<IslandCannonRelation>().cannon.GetComponent<CannonShoot>().shoot();
+        }
+        else if (Input.GetKeyDown(KeyCode.Q))
+        {
+            Island3.GetComponentInChildren<IslandCannonRelation>().cannon.GetComponent<CannonShoot>().shoot();
+        }
     }
 
     public bool IsGameRunning()
