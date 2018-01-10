@@ -19,7 +19,7 @@ public class IslandHealth : MonoBehaviour {
     public void ReduceIslandHealth()
     {
         islandHealth--;
-
+        masterManager.scoreManager.UpdateScoreOnIslandHit();
         int islandIndex = GetComponent<IslandCannonRelation>().cannon.CannonIndex;
 
         if (islandHealth > 0)
@@ -58,7 +58,7 @@ public class IslandHealth : MonoBehaviour {
     {
         Rock.gameObject.SetActive(false);
         PalmTree.gameObject.SetActive(false);
-        masterManager.waveManager.IncreaseWave(true);
+        //masterManager.waveManager.IncreaseWave(true);
         masterManager.spawnManager.OnIslandDeath(gameObject.GetComponent<IslandCannonRelation>().cannon.CannonIndex);
         gameObject.GetComponent<IslandCannonRelation>().cannon.gameObject.SetActive(false);
         gameObject.SetActive(false);

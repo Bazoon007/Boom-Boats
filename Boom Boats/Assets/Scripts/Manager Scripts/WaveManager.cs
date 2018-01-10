@@ -14,9 +14,14 @@ public class WaveManager : MonoBehaviour {
         waveText.text = string.Empty;
     }
 
+    public int GetWaveTotalLength()
+    {
+        return waveLength + currentWave;
+    }
+
     public void CheckIfNeedToIncreaseWave(int waveScore)
     {
-        if (waveScore == waveLength + currentWave)
+        if (waveScore == GetWaveTotalLength())
         {
             IncreaseWave(false);
         }
@@ -38,8 +43,8 @@ public class WaveManager : MonoBehaviour {
 
     private void updateSpawnManager()
     {
-        masterManager.spawnManager.DisableAllActiveBoats();
-
+        //masterManager.spawnManager.DisableAllActiveBoats();
+        masterManager.spawnManager.ResetBoatCounter();
         masterManager.spawnManager.spawnTime *= 0.9f;
 
         if (masterManager.spawnManager.spawnBoatSpeed < 2.25f)

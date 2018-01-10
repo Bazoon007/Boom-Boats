@@ -726,10 +726,11 @@ MonoBehaviour:
   masterManager: {fileID: 416535527}
   startingZposition: 10
   boat: {fileID: 1300190056103224, guid: c4b06c1d2ae237f4695d71f1a3c8360c, type: 2}
-  spawnBoatSpeed: 0.5
+  spawnBoatSpeed: 1
   boats: []
   spawnPoints: []
   spawnPointsCountArray: 
+  numberOfSentBoats: 0
 --- !u!1 &195537072
 GameObject:
   m_ObjectHideFlags: 0
@@ -1580,6 +1581,11 @@ Prefab:
       propertyPath: m_Radius
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 114232891191708168, guid: 1ef769c63a5e39341accb74b88de9428,
+        type: 2}
+      propertyPath: fireRate
+      value: 0.5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 1ef769c63a5e39341accb74b88de9428, type: 2}
   m_IsPrefabParent: 0
@@ -1847,7 +1853,7 @@ Prefab:
     - target: {fileID: 114373398143926398, guid: ded3cc78b4648d74e8a770587f59cc2d,
         type: 2}
       propertyPath: spawnBoatSpeed
-      value: 0.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114373398143926398, guid: ded3cc78b4648d74e8a770587f59cc2d,
         type: 2}
@@ -2710,7 +2716,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cannonBall: {fileID: 1976675644474088, guid: ced186f48d7365646bd2809680e912ce, type: 2}
   shotSpawn: {fileID: 71502076}
-  fireRate: 0.2
+  fireRate: 0.5
 --- !u!1 &810490124
 GameObject:
   m_ObjectHideFlags: 0
@@ -4842,7 +4848,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cannonBall: {fileID: 1976675644474088, guid: ced186f48d7365646bd2809680e912ce, type: 2}
   shotSpawn: {fileID: 751256396}
-  fireRate: 0.2
+  fireRate: 0.5
 --- !u!1001 &1369267633
 Prefab:
   m_ObjectHideFlags: 0
@@ -6409,7 +6415,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cannonBall: {fileID: 1976675644474088, guid: ced186f48d7365646bd2809680e912ce, type: 2}
   shotSpawn: {fileID: 354584416}
-  fireRate: 0.2
+  fireRate: 0.5
 --- !u!1 &2002156401
 GameObject:
   m_ObjectHideFlags: 0

@@ -40,6 +40,12 @@ public class ScoreManager : MonoBehaviour {
         masterManager.waveManager.CheckIfNeedToIncreaseWave(waveScore);
     }
     
+    public void UpdateScoreOnIslandHit()
+    {
+        waveScore++;
+        masterManager.waveManager.CheckIfNeedToIncreaseWave(waveScore);
+    }
+
     public void EndOfWave(bool didIslandDie)
     {
         if (!didIslandDie)

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class SpawnManager : MonoBehaviour {
 
@@ -17,6 +18,7 @@ public class SpawnManager : MonoBehaviour {
     private int min;
     private float initialTime;
     private float initialBoatSpeed;
+    public int numberOfSentBoats;
 
     void Start ()
     {
@@ -29,9 +31,17 @@ public class SpawnManager : MonoBehaviour {
     {
         if ((Time.time > lastSpawn && masterManager.IsGameRunning()))
         {
-            lastSpawn = Time.time + spawnTime;
-            spawn();
+            if (numberOfSentBoats < masterManager.waveManager.GetWaveTotalLength())
+            {
+                lastSpawn = Time.time + spawnTime;
+                spawn();
+            }
         }
+    }
+
+    internal void ResetBoatCounter()
+    {
+        numberOfSentBoats = 0;
     }
 
     public static SpawnManager getInstance()
@@ -87,6 +97,7 @@ public class SpawnManager : MonoBehaviour {
         initiateSpawnPoints();
         spawnTime = initialTime;
         spawnBoatSpeed = initialBoatSpeed;
+        numberOfSentBoats = 0;
     }
 
     private void initiateSpawnPoints()
@@ -131,6 +142,7 @@ public class SpawnManager : MonoBehaviour {
 
     private void spawn()
     {
+        numberOfSentBoats++;
         for(int i = 0; i < boats.Length; i++)
         {
             if(!boats[i].activeInHierarchy)
